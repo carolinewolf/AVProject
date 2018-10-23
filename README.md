@@ -17,3 +17,5 @@ Ideen:
 
 
 https://blog.naver.com/monkey5255/220662430284
+
+https://docs.opencv.org/3.3.1/d4/d73/tutorial_py_contours_begin.html
