@@ -14,3 +14,6 @@ https://www.robinwieruch.de/machine-learning-javascript-web-developers/
 Ideen:
 - Verschiedene Musikinstrumente/Sounds auswählen und in eine Reihenfolge bringen. Die KI fügt dann weitere Instrumente/Sounds hinzu.
 -
+
+
+https://blog.naver.com/monkey5255/220662430284
