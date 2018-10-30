@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\videoplayer.o
+./release\formkeyer.o
+./release\videoengine.o
+./release\videowidget.o
+./release\videoformat.o
+./release\moc_mainwindow.o
+./release\moc_videoplayer.o
+./release\moc_videoengine.o
+./release\moc_videowidget.o
+);
