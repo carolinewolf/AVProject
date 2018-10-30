@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>MIDI</title>
+	<!--script src='code.js'></script-->
+</head>
+
+<!--body onload="initialize()" id="body"-->
+		<body id="body">
+	MIDI Inputs:
+	<!--select id="inputportselector"></select-->
+	<br>
+
+	<div id="animationSection">
+
+	</div>
+	<div id="editingSection">
+		<!--Volume/Gain-->
+		<div class="gainContainer">Lautstärke
+			<input type="range" min="-40" max="40" value="10" class="slider" id="gainSlider">
+			<span id="gainOutput">1.0 dB</span>
+		</div>
+		<!--Frequency-->
+		<div id="frequencyContainer">Frequenz
+			<input type="range" min="20" max="20000" value="1000" class="slider" id="frequencySlider">
+			<span id="frequencyOutput">1000 Hz</span>
+		</div>
+		<select id="selectMenu">
+			<option id="cave" value="cave">Cave</option>
+			<option id="church" value="church">Church</option>
+			<option id="garage" value="garage">Garage</option>
+			<option id="room" value="room">Room</option>
+		</select>
+	</div>
+
+	<script src="script.js"></script>
+
+</body>
+
+</html>
