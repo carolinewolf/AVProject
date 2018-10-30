@@ -14,6 +14,15 @@ https://js.tensorflow.org/
 
 Ideen:
 - Verschiedene Musikinstrumente/Sounds auswählen und in eine Reihenfolge bringen. Die KI fügt dann weitere Instrumente/Sounds hinzu.
+<<<<<<< HEAD
 - Kamera erkennt Objekte und spielt daraufhin Geräusche ab, die diese Objekte machen könnten
 - Kamera erkennt aufgemalte Noten und macht daraus Sound. Dieser Sound kann im Browser durch Regler bearbeitet werden
 - 
+=======
+-
+
+
+https://blog.naver.com/monkey5255/220662430284
+
+https://docs.opencv.org/3.3.1/d4/d73/tutorial_py_contours_begin.html
+>>>>>>> origin/master
