@@ -28,6 +28,7 @@ public:
     QPushButton *playStopBtn;
     VideoWidget *inputFrame;
     VideoWidget *inputFrame_2;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -54,10 +55,13 @@ public:
         inputFrame_2->setFrameShape(QFrame::Box);
         inputFrame_2->setScaledContents(false);
         inputFrame_2->setAlignment(Qt::AlignCenter);
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(70, 380, 181, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1282, 26));
+        menuBar->setGeometry(QRect(0, 0, 1282, 21));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -77,6 +81,7 @@ public:
         playStopBtn->setText(QApplication::translate("MainWindow", "Tracking starten", nullptr));
         inputFrame->setText(QString());
         inputFrame_2->setText(QString());
+        pushButton->setText(QApplication::translate("MainWindow", "Kamera einschalten", nullptr));
     } // retranslateUi
 
 };

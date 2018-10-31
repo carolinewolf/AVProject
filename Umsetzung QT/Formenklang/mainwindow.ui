@@ -71,6 +71,19 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>380</y>
+      <width>181</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kamera einschalten</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -78,7 +91,7 @@
      <x>0</x>
      <y>0</y>
      <width>1282</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

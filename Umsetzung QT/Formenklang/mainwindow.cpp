@@ -12,12 +12,14 @@ MainWindow::MainWindow(QWidget *parent) :
     const int deviceNumber = 0;
         videoEngine.openCamera(deviceNumber + cv::CAP_DSHOW);
 
-
-        videoEngine.start();
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    videoEngine.start();
 }
