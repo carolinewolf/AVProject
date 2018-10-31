@@ -1,0 +1,165 @@
+html {
+	font-family: Arial;
+	color: white;
+}
+
+body {
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgb(247, 202, 201);
+	/* Old browsers */
+	background: -moz-linear-gradient(-45deg, rgb(201, 236, 247) 0%, rgba(146, 168, 209, 1) 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, rgba(201, 236, 247, 1) 0%, rgba(146, 168, 209, 1) 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, rgba(201, 236, 247, 1) 0%, rgba(146, 168, 209, 1) 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	/* IE6-9 fallback on horizontal gradient */
+}
+
+.slider {
+	cursor: pointer;
+}
+
+#gain,
+#frequency,
+#filterMenu,
+#reverbMenu,
+#downloadSection {
+	display: inline-table;
+	margin-left: 3em;
+}
+
+#animationSection {
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#animationIMG {
+  position: absolute;
+  animation-name: soundAnimation;
+}
+
+@keyframes soundAnimation {
+  0%   {opacity: 1; transform: rotate(0deg);}
+  100% {opacity: 0; transform: rotate(360deg) scale(1.5); }
+}
+
+#editingSection {
+	background-color: #202d3a;
+	min-height: 23%;
+	position: relative;
+}
+
+
+/* Reset Select */
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: 0;
+	box-shadow: none;
+	border: 0 !important;
+	background: #2c3e50;
+	background-image: none;
+}
+
+
+/* Custom Select */
+
+.select {
+	position: relative;
+	display: block;
+	width: 15em;
+	height: 2.5em;
+	line-height: 2.5;
+	background: #2c3e50;
+	overflow: hidden;
+	border-radius: .25em;
+}
+
+select {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0 0 0 .5em;
+	color: #fff;
+	cursor: pointer;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+
+/* Arrow */
+
+.select::after {
+	content: '\25BC';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0 1em;
+	background: #34495e;
+	pointer-events: none;
+}
+
+
+/* Transition */
+
+.select:hover::after {
+	color: white;
+}
+
+.select::after {
+	-webkit-transition: .25s all ease;
+	-o-transition: .25s all ease;
+	transition: .25s all ease;
+}
+
+#downloadButton {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background: -moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background: -webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background: -o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background: -ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background: linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2', GradientType=0);
+	background-color: #33bdef;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #057fd0;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 25px;
+	font-weight: bold;
+	padding: 14px 38px;
+	margin-bottom: 25px;
+	text-decoration: none;
+	text-shadow: 0px -1px 0px #5b6178;
+}
+
+#downloadButton:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
+	background: -moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background: -webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background: -o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background: -ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background: linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef', GradientType=0);
+	background-color: #019ad2;
+}
+
+#downloadButton:active {
+	position: relative;
+	top: 1px;
+}
+
