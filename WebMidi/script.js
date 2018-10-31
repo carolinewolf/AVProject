@@ -67,7 +67,7 @@ convolver.connect(filter);
 filter.connect(context.destination);
 
 sound.loop = true;
-sound.play();
+sound.play(); // play() failed because the user didn't interact with the document first IN CHROME
 
 
 //Frequenz, Lautstärke
