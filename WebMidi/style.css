@@ -115,7 +115,12 @@ select {
 	color:#ffffff;
 	font-size:25px;
 	font-weight:bold;
+<<<<<<< HEAD
 	padding:14px 38px;
+=======
+  padding:14px 38px;
+  margin-bottom: 2em;
+>>>>>>> 1a872bf2e67ff337cc8ec0b1a3b7d19f98302ce1
 	text-decoration:none;
 	text-shadow:0px -1px 0px #5b6178;
 }
