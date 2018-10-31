@@ -1,9 +1,9 @@
 var context = new AudioContext();
-var sound  = new Audio("sound.wav"); //hier unsere Soundsequenz einfügen
-var source = context.createMediaElementSource(sound);
+var filter = context.createBiquadFilter(); //für Frequenz
 var convolver = context.createConvolver(); //für Nachhall Reverb
 var gainNode = context.createGain(); //für Lautstärke
 var selectMenu = document.getElementById("selectMenu");
+var selectFilter = document.getElementById("selectFilter");
 var allFrequencies = [
     8.1757989156, 8.6619572180, 9.1770239974,
     9.7227182413, 10.3008611535, 10.9133822323,
@@ -49,14 +49,28 @@ var allFrequencies = [
     9956.06347910659, 10548.081821211836, 11175.303405856126,
     11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
+var button = document.getElementById("button");
+
+//AudioBuffer für gelegte Töne
+/*var source1, source2, source3; //die verschiedenen Soundsequenzen 
+var sourceBuffers = [source1, source2, source3]; //ausgewählte Sounds aus MIDI hier reinladen 
+var startTime = context.currentTime + 0.100;
+var time = [5, 10, 20]; //x-Werte der Formen für Zeitangabe*/
+
+var sound  = new Audio("sound.wav"); //hier unsere Soundsequenz einfügen
+var source = context.createMediaElementSource(sound);
+
 
 source.connect(gainNode);
 gainNode.connect(convolver);
-convolver.connect(context.destination);
+convolver.connect(filter);
+filter.connect(context.destination);
 
 sound.loop = true;
 sound.play();
 
+
+//Frequenz, Lautstärke
 for (var i = 0; i < sliders.length; i++) {
     sliders[i].addEventListener("mousemove", changeParameter);
 }
@@ -64,15 +78,22 @@ for (var i = 0; i < sliders.length; i++) {
 function changeParameter() {
     switch (this.id) {
         case "frequencySlider":
-            convolver.frequency.value = this.value;
+            filter.frequency.value = this.value;
             document.getElementById("frequencyOutput").innerHTML = this.value + " Hz";
             break;
         case "gainSlider":
-            gainNode.gain.value = this.value;
+            gainNode.gain.value = this.value / 20;
             document.getElementById("gainOutput").innerHTML = this.value + " dB";
             break;
     }
 }
+
+//Frequenz Filter
+selectFilter.addEventListener("change", function () {
+    filter.type = selectFilter.options[selectFilter.selectedIndex].value;
+});
+
+//Reverb
 var indexOfMenu;
 var reverbName;
 
@@ -92,5 +113,4 @@ selectMenu.addEventListener("change", function () {
         });
     };
     request.send();
-    sound.play();
 });

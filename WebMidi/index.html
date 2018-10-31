@@ -2,12 +2,15 @@
 <html>
 
 <head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 	<title>MIDI</title>
 	<!--script src='code.js'></script-->
 </head>
 
 <!--body onload="initialize()" id="body"-->
-		<body id="body">
+
+<body id="body">
 	MIDI Inputs:
 	<!--select id="inputportselector"></select-->
 	<br>
@@ -17,23 +20,54 @@
 	</div>
 	<div id="editingSection">
 		<!--Volume/Gain-->
-		<div class="gainContainer">Lautstärke
-			<input type="range" min="-40" max="40" value="10" class="slider" id="gainSlider">
+		<div id="gain">
+		<h3>Volume</h3>
+		<div id="gainContainer">
+			<input type="range" min="0" max="100" value="50" class="slider" id="gainSlider">
 			<span id="gainOutput">1.0 dB</span>
 		</div>
+	</div>
+	<div id="frequency">
 		<!--Frequency-->
-		<div id="frequencyContainer">Frequenz
+		<h3>Frequency</h3>
+		<div id="frequencyContainer">
 			<input type="range" min="20" max="20000" value="1000" class="slider" id="frequencySlider">
 			<span id="frequencyOutput">1000 Hz</span>
 		</div>
-		<select id="selectMenu">
-			<option id="cave" value="cave">Cave</option>
-			<option id="church" value="church">Church</option>
-			<option id="garage" value="garage">Garage</option>
-			<option id="room" value="room">Room</option>
-		</select>
 	</div>
+		<div id="filterMenu">
+			<h3>Filter</h3>
+			<div class="select">
+				<select id="selectFilter">
+					<option value="lowpass">Lowpass</option>
+					<option value="highpass">Highpass</option>
+					<option value="bandpass">Bandpass</option>
+					<option value="allpass">Allpass</option>
+					<option value="lowshelf">lowshelf</option>
+					<option value="highshelf">highshelf</option>
+					<option value="peaking">Peaking</option>
+					<option value="notch">Notch</option>
+				</select>
+			</div>
+		</div>
+		<div id="reverbMenu">
+			<h3>Reverb</h3>
+			<div class="select">
+				<select id="selectMenu">
+					<option id="cave" value="cave">Cave</option>
+					<option id="church" value="church">Church</option>
+					<option id="garage" value="garage">Garage</option>
+					<option id="room" value="room">Room</option>
+				</select>
+			</div>
+		</div>
+		<div id="downloadSection">
+				<h3>Download</h3>
+			<button id="downloadButton"><i class="fas fa-download"></i></button>
+		</div>
 
+	</div>
+	<script src="buffer-loader.js"></script>
 	<script src="script.js"></script>
 
 </body>
