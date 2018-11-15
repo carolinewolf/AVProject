@@ -22,7 +22,10 @@ public:
     void setInputWidget(VideoWidget* inputWidget);
     void setProcessedWidget(VideoWidget* processedWidget);
     const VideoFormat& videoFormat() const;
+    int getWidth();
+    int getHeight();
     int framePosition();
+
 protected:
     void run();
 public slots:

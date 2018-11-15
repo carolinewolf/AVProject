@@ -20,15 +20,19 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    formkeyer.cpp
+    formkeyer.cpp \
+    form.cpp
 
 HEADERS += \
         mainwindow.h \
-    formkeyer.h
+    formkeyer.h \
+    form.h \
+    constants.h
 
 FORMS += \
         mainwindow.ui
 
 
 include(../opencv/videoengine.pri)
+include(../drumstick/drumstick.pro)
 

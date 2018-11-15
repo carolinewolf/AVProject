@@ -117,6 +117,13 @@ void VideoEngine::run()
     }
 }
 
+
+int VideoEngine::getWidth() {
+     return videoFormat().frameWidth();
+}
+int VideoEngine::getHeight() {
+     return videoFormat().frameHeight();
+}
 int VideoEngine::framePosition(){
     return videoCapture.get(CV_CAP_PROP_POS_FRAMES);
 }

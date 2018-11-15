@@ -1,122 +1,169 @@
 #include "formkeyer.h"
 #include <QDebug>
 #include <vector>
+#include "form.h"
+#include <QTextStream>
+#include <constants.h>
+
+extern int frameHeight;
+extern int frameWidth;
 
 using namespace cv;
 using namespace std;
-FormKeyer::FormKeyer()
-{
+
+FormKeyer::FormKeyer(){}
+
+int counter = 0;
+
+
+double xA, yA;
+
+bool connectedMIDI = false;
+void FormKeyer::start(){
+    QStringList connections = midiOutput.connections(true);
+    midiOutput.open("LoopBe Internal MIDI");
 
 }
-
-// --- Red
-// Hue
-const double redHueLower1 = 0;
-const double redHuerUpper1 = 20 / 2;
-const double redHueLower2 = 340 / 2;
-const double redHuerUpper2 = 360 / 2;
-// Satturation
-const double redSatLower = 100;
-const double redSatUpper = 255;
-// Light
-const double redLigLower = 100;
-const double redLigUpper = 255;
-
-
-// --- Green
-// Hue
-const double greenHueLower = 70 / 2;
-const double greenHueUpper = 120 / 2;
-// Satturation
-const double greenSatLower = (30 * 2.55);
-const double greenSatUpper = (100 * 2.55);
-// Light
-const double greenLigLower = (20 * 2.55);
-const double greenLigUpper = (75 * 2.55);
-
-
-// --- Blue
-// Hue
-const double blueHueLower = 200 / 2;
-const double blueHueUpper = 300 / 2;
-//Satturation
-const double blueSatLower = (30 * 2.55);
-const double blueSatUpper = (100 * 2.55);
-// Light
-const double blueLigLower = (30 * 2.55);
-const double blueLigUpper = (100 * 2.55);
+Mat output;
 
 Mat FormKeyer::process(const Mat &input){
 
-
-    Mat hsvImage, redMask, greenMask, blueMask,lowerRedHueRange, upperRedHueRange;
-    cvtColor(input, hsvImage, CV_BGR2HSV);
-
-
-    inRange(hsvImage, Scalar(redHueLower1, 100, 100), Scalar(redHuerUpper1, 255, 255), lowerRedHueRange);
-    inRange(hsvImage, Scalar(redHueLower2, 100, 100), Scalar(redHuerUpper2, 255, 255), upperRedHueRange);
-
-    bitwise_or(lowerRedHueRange,upperRedHueRange, redMask);
+    if(!connectedMIDI) {
+        start();
+        connectedMIDI = true;
+        input.copyTo(output);
+    }
 
 
-    inRange(hsvImage, Scalar(greenHueLower, greenSatLower, greenLigLower), Scalar(greenHueUpper, greenSatUpper, greenLigUpper), greenMask);
-    inRange(hsvImage, Scalar(blueHueLower, blueSatLower, blueLigLower), Scalar(blueHueUpper, blueSatUpper, blueLigUpper), blueMask);
+    if (counter > 100) {
+        cout << "-------------------------------------------" << endl;
 
-    // entfernt kleine Störungen
-    erode(greenMask, greenMask, Mat());
-    //schließt die Objekte
-    morphologyEx(greenMask,greenMask, MORPH_CLOSE, 1);
+        Mat hsvImage, redMask, greenMask, blueMask,lowerRedHueRange, upperRedHueRange;
 
-    GaussianBlur(greenMask,greenMask,Size(3,3),0);
-    Mat output = detectForms(greenMask, input);
+        cvtColor(input, hsvImage, CV_BGR2HSV);
 
-    return output;
+        // Nach Rot suchen - oberer und unterer Bereich der 360 Grad
+        inRange(hsvImage, Scalar(redHueLower1, redSatLower, redLigLower), Scalar(redHuerUpper1, redSatUpper, redLigUpper), lowerRedHueRange);
+        inRange(hsvImage, Scalar(redHueLower2, redSatLower, redLigLower), Scalar(redHuerUpper2, redSatUpper, redLigUpper), upperRedHueRange);
+        // Verunden der beiden Rotbereiche
+        bitwise_or(lowerRedHueRange,upperRedHueRange, redMask);
+
+        // Nach Grün suchen
+        inRange(hsvImage, Scalar(greenHueLower, greenSatLower, greenLigLower), Scalar(greenHueUpper, greenSatUpper, greenLigUpper), greenMask);
+        // Nach Blau suchen
+        inRange(hsvImage, Scalar(blueHueLower, blueSatLower, blueLigLower), Scalar(blueHueUpper, blueSatUpper, blueLigUpper), blueMask);
+
+
+        blueMask = morphImage(blueMask);
+        greenMask = morphImage(greenMask);
+        redMask = morphImage(redMask);
+
+        vector<vector<int>> greenForms = detectForms(greenMask, GREEN_FORM);
+        vector<vector<int>> redForms = detectForms(redMask, RED_FORM);
+        vector<vector<int>> blueForms = detectForms(blueMask, BLUE_FORM);
+
+        vector<vector<int>> allForms;
+
+        allForms.reserve( greenForms.size() + redForms.size() + blueForms.size() );
+        allForms.insert( allForms.end(), greenForms.begin(), greenForms.end() );
+        allForms.insert( allForms.end(), redForms.begin(), redForms.end() );
+        allForms.insert( allForms.end(), blueForms.begin(), blueForms.end() );
+
+        double berechnungW = 255.0 / double(frameWidth);
+        double berechnungH = 255.0 / double(frameHeight);
+
+        if(allForms.size() > 0) {
+            for(size_t i = 0; i < allForms.size(); i ++) {
+                if(allForms[i].size() > 0) {
+                    if (allForms[i][0] > 0) {
+                        vector<int> form = allForms[i];
+                        // Umrechnung auf max 255
+                        xA = berechnungW * double(form[1]);
+                        yA =  berechnungH * double(form[2]);
+                        cout << "Form: " << form[0] << ", X: " << xA << ", Y: " << yA << endl;
+                        midiOutput.sendNoteOn(form[0], int(xA), int(yA));
+                    }
+                }
+            }
+        }
+        counter = 0;
+        redMask.copyTo(output);
+        return output;
+    } else {
+        counter += 1;
+        return output;
+    }
 
 }
 
 
-Mat FormKeyer::detectForms(const Mat &mask, const Mat &input) {
+Mat FormKeyer::morphImage(Mat mask) {
+    int morph_size = 2;
+    Mat element = getStructuringElement( MORPH_ELLIPSE, Size( 4*morph_size + 1, 2*morph_size+1 ), Point( morph_size, morph_size ) );
+    morphologyEx(mask, mask, MORPH_OPEN,element);
+    return mask;
+}
 
+vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
+
+    int formType, x, y;
     vector<vector<Point> > contours;
-    vector<Vec4i> hierarchy;
+    vector<Point> approxPoly;
+    findContours( mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
 
-    findContours( mask, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
-
-    vector<Point> approxTriangle;
-    vector<Moments> mu(contours.size());
-    vector<Point2f> mc(contours.size());
-
+    vector<vector<int>> forms (contours.size());
+    String colorText;
+    if (color == 1) {
+        colorText = "Gruen";
+    } else if (color == 2) {
+        colorText = "Blau";
+    } else if (color == 3) {
+        colorText = "Rot";
+    }
     for(size_t i = 0; i < contours.size(); i++){
 
-        approxPolyDP(contours[i], approxTriangle, arcLength(Mat(contours[i]), true)*0.05, true);
-        if(approxTriangle.size() == 3){
-            int center;
-            drawContours(input, contours, i, Scalar(0, 255, 0), 3); // fill GREEN
-            vector<Point>::iterator vertex;
-            for(vertex = approxTriangle.begin(); vertex != approxTriangle.end(); ++vertex){
-                circle(input, *vertex, 3, Scalar(0, 0, 255), 1);
-            }
-        }
-        else if(approxTriangle.size() == 4){
-            drawContours(input, contours, i, Scalar(0, 0, 255), 3); // fill GREEN
-            vector<Point>::iterator vertex;
-            for(vertex = approxTriangle.begin(); vertex != approxTriangle.end(); ++vertex){
-                circle(input, *vertex, 3, Scalar(0, 0, 255), 1);
-            }
-        }
-        else if(approxTriangle.size() == 5){
-            drawContours(input, contours, i, Scalar(255, 0, 0), 3); // fill GREEN
-            vector<Point>::iterator vertex;
-            for(vertex = approxTriangle.begin(); vertex != approxTriangle.end(); ++vertex){
-                circle(input, *vertex, 3, Scalar(0, 0, 255), 1);
-            }
-        }
-        mu[i] = moments( contours[i], false );
-        mc[i] = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );
-        circle( input, mc[i], 4, Scalar(0,0,0), -1, 8, 0 );
-    }
+        if(contours[i].size() > 20){
+            Rect bound = boundingRect(Mat(contours[i]));
+            x = (bound.x + (bound.width/2));
+            y = (bound.y + (bound.height/2));
+            if (bound.width > 20 && bound.height > 20){
+                approxPolyDP(contours[i], approxPoly, arcLength(Mat(contours[i]), true)*0.05, true);
 
-      return input;
+                switch(approxPoly.size()) {
+                case 3 : formType = TRIANGLE_NUMBER + color;
+                    cout << "----------" << endl;
+                    cout << "DREIECK " << colorText << endl;
+                    cout << "Breite: " << bound.width << " Hoehe: " << bound.height << " x: " << x << " y: " << y <<endl;
+
+
+                    break;
+                case 4 : formType = QUADER_NUMBER + color;
+                    cout << "----------" << endl;
+                    cout << "QUADRAT " << colorText << endl;
+                    cout << "Breite: " << bound.width << " Hoehe: " << bound.height << " x: " << x << " y: " << y <<endl;
+
+
+                    break;
+                case 5 : formType = PENTAGON_NUMBER + color;
+                    cout << "----------" << endl;
+                    cout << "PENTAGON " << colorText << endl;
+                    cout << "Breite: " << bound.width << " Hoehe: " << bound.height << " x: " << x << " y: " << y <<endl;
+
+
+                    break;
+                default:
+                    formType = 0;
+                    x = 0;
+                    y = 0;
+                    break;
+                }
+
+                vector<int> form = {formType, x, y};
+                forms[i] = form;
+            }
+        }
+    }
+    return forms;
 }
 
 

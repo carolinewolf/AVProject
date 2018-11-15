@@ -84,6 +84,19 @@
      <string>Kamera einschalten</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>110</y>
+      <width>651</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -91,7 +104,7 @@
      <x>0</x>
      <y>0</y>
      <width>1282</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
