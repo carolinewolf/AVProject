@@ -29,7 +29,7 @@ Mat FormKeyer::process(const Mat &input){
         frameHeightToByte = 255.0 / double(frameHeight);
     }
 
-    if (counter > 100) {
+    if (counter > 200) {
         cout << "-------------------------------------------" << endl;
 
         cvtColor(input, hsvImage, CV_BGR2HSV);
