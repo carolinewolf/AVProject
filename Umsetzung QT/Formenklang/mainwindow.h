@@ -29,6 +29,7 @@ private:
     Ui::MainWindow *ui;
     VideoEngine videoEngine;
     FormKeyer formKeyer;
+
 };
 
 #endif

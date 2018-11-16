@@ -9,7 +9,7 @@ const double redHuerUpper1 = 20 / 2;
 const double redHueLower2 = 340 / 2;
 const double redHuerUpper2 = 360 / 2;
 // Satturation
-const double redSatLower = (30 * 2.55);
+const double redSatLower = (55 * 2.55);
 const double redSatUpper = (100 * 2.55);
 // Light
 const double redLigLower = (15 * 2.55);
@@ -47,5 +47,7 @@ const int PENTAGON_NUMBER = 30;
 const int GREEN_FORM = 1;
 const int BLUE_FORM = 2;
 const int RED_FORM = 3;
+
+
 
 #endif // CONSTANTS_H
