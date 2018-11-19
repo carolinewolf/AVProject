@@ -50,16 +50,20 @@ var allFrequencies = [
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
 var downloadButton = document.getElementById("downloadButton");
-var sound60, sound61, sound62, sound63, sound64;
-var sourceBuffers = [sound60, sound61, sound62, sound63, sound64];
-var soundNumber = 65;
+var sound11, sound12, sound13, sound21, sound22, sound23, sound31, sound32, sound33;
+var sourceBuffers = [sound11, sound12, sound13, sound21, sound22, sound23, sound31, sound32, sound33];
+var soundNumber = 33;
 var sound;
 
 
 function initialize() {
-	for (let i = 60; i < soundNumber; i++) { 	//load sounds in buffer
+	for (let i = 11; i <= soundNumber; i++) { 	//load sounds in buffer
 		loadSounds(i);
+		if (i==13 || i== 23){
+			i+7; //oder +8?
+		}
 	}
+
 	let midi = null;  // global MIDIAccess object
 	let midiInputs = [];
 	function onMIDISuccess(midiAccess) {
@@ -101,54 +105,42 @@ function initialize() {
 	}
 	function MIDIMessageEventHandler(event) {
 		// Mask off the lower nibble (MIDI channel, which we don't care about)
-		switch (event.data[0] & 0xf0) {
-			case 0x90:
-				if (event.data[2] == 0) {
-					noteOff(event.data[1]);
-				}
-				else {
-					noteOn(event.data[1], event.data[2]);
-				}
-				break;
-			case 0x80:
-				noteOff(event.data[1]);
-				break;
-			case 0xB0:
-				controlChange(event.data[1], event.data[2]);
-				break;
-			case 0xC0:
-				programChange(event.data[1]);
-				break;
-			case 0xE0:
-				pitchbend(event.data[1], event.data[2]);
-				break;
-		}
+		noteOn(event.data[0], event.data[1], event.data[2]);
 	}
 
-
 	var animationLength;
-	function noteOn(noteNumber, velocity) {
+	function noteOn(noteNumber, x, y) {
 		var img = document.createElement("img");
 		playSound(noteNumber);
-		if (noteNumber == 60) {
-			img.src = "img/5.png";
-			img.alt = "5eck";
-			animationLength = 1;
-		}
-		else if (noteNumber == 61) {
-			img.src = "img/3.png";
+		if (noteNumber == 11) {
+			img.src = "img/11.png";
 			img.alt = "3eck";
 			animationLength = 1;
 		}
-		else if (noteNumber == 63) {
-			img.src = "img/4.png";
+		else if (noteNumber == 12) {
+			img.src = "img/12.png";
+			img.alt = "3eck";
+			animationLength = 1;
+		}
+		else if (noteNumber == 13) {
+			img.src = "img/13.png";
+			img.alt = "3eck";
+			animationLength = 1;
+		}
+		else if (noteNumber == 21) {
+			img.src = "img/21.png";
 			img.alt = "4eck";
 			animationLength = 4;
 		}
-		else if (noteNumber == 64) {
-			img.src = "img/0.png";
-			img.alt = "Kreis";
+		else if (noteNumber == 22) {
+			img.src = "img/22.png";
+			img.alt = "4eck";
 			animationLength = 7;
+		}
+		else if (noteNumber == 23) {
+			img.src = "img/23.png";
+			img.alt = "4eck";
+			animationLength = 2;
 		}
 		img.style.WebkitAnimationDuration = animationLength + "s"; //Chrome, Safari, Opera
 		img.style.animationDuration = animationLength + "s";
@@ -157,21 +149,8 @@ function initialize() {
 		setTimeout(function () { document.getElementById("animationSection").removeChild(img); }, animationLength * 1000 - 10);
 		console.log(`note on: note=${noteNumber}, velocity = ${velocity}`);
 	}
-	function noteOff(noteNumber) {
-		console.log(`note off: note=${noteNumber}`);
-	}
-	function controlChange(controller, value) {
-		console.log(`control change: controller = ${controller}, value = ${value}`);
-	}
-	function programChange(program) {
-		console.log(`program change: program=${program}`);
-	}
-	function pitchbend(value1, value2) {
-		console.log(value1 * 128 + " " + value2);
-		const pitchbendValue = (value1 * 128 + value2) - 8192;
-		console.log(`pitch bend: value = ${pitchbendValue}`);
-	}
 }
+
 //https://jsfiddle.net/KeithMcMillenInstruments/y649dnx0/?utm_source=website&utm_medium=embed&utm_campaign=y649dnx0
 // function to load sounds 
 function loadSounds(i) {
