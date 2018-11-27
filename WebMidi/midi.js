@@ -56,9 +56,11 @@ var soundNumber = 33;
 var sound;
 
 
+//--------------------------------------------Midi und Sound-Visualisierung --------------------------------------------
+
 function initialize() {
 	for (let i = 11; i <= soundNumber; i++) { 	//load sounds in buffer
-		if (i==11 || i==12 || i==13 || i==21 || i==22 || i==23 || i==31 || i==32 ||i==33){
+		if (i == 11 || i == 12 || i == 13 || i == 21 || i == 22 || i == 23 || i == 31 || i == 32 || i == 33) {
 			loadSounds(i);
 		}
 	}
@@ -95,7 +97,6 @@ function initialize() {
 		selectMidiInput(inputPortSelector.selectedIndex);
 	}
 
-
 	function selectMidiInput(index) {
 		const selectedIndex = document.getElementById('inputportselector').selectedIndex;
 		const midiInput = midiInputs[selectedIndex];
@@ -103,44 +104,66 @@ function initialize() {
 		return midiInput;
 	}
 	function MIDIMessageEventHandler(event) {
-		// Mask off the lower nibble (MIDI channel, which we don't care about)
-		noteOn(event.data[0], event.data[1], event.data[2]);
+		noteOn(event.data[0], event.data[1], event.data[2]); //noteNumber, x, y
 	}
 
 	var animationLength;
+	var soundVolume;
 	function noteOn(noteNumber, x, y) {
 		var img = document.createElement("img");
 		playSound(noteNumber);
-		if (noteNumber == 155) {
-			img.src = "img/11.png";
-			img.alt = "3eck";
-			animationLength = 1;
+		//y=Lautstärke Werte von 0-640 auf 0-100 umrechnen
+		soundVolume=Math.round((100/640)*y) // ergibt gerundeten Wert zwischen 0 und 100 
+		//x=Abspielstartzeit Werte von 0-480 auf x Sekunden umrechnen
+
+		switch (noteNumber) {
+			case 155:
+				img.src = "img/11.png";
+				img.alt = "3eck";
+				animationLength = 1;
+				break;
+			case 156:
+				img.src = "img/12.png";
+				img.alt = "3eck";
+				animationLength = 1;
+				break;
+			case 157:
+				img.src = "img/13.png";
+				img.alt = "3eck";
+				animationLength = 1;
+				break;
+			case 149:
+				img.src = "img/21.png";
+				img.alt = "4eck";
+				animationLength = 4;
+				break;
+			case 150:
+				img.src = "img/22.png";
+				img.alt = "4eck";
+				animationLength = 7;
+				break;
+			case 151:
+				img.src = "img/23.png";
+				img.alt = "4eck";
+				animationLength = 2;
+				break;
+			case 143:
+				img.src = "img/31.png";
+				img.alt = "5eck";
+				animationLength = 4; //anpassen
+				break;
+			case 144:
+				img.src = "img/32.png";
+				img.alt = "5eck";
+				animationLength = 7; //anpassen
+				break;
+			case 145:
+				img.src = "img/33.png";
+				img.alt = "5eck";
+				animationLength = 2; //anpassen
+				break;
 		}
-		else if (noteNumber == 156) {
-			img.src = "img/12.png";
-			img.alt = "3eck";
-			animationLength = 1;
-		}
-		else if (noteNumber == 157) {
-			img.src = "img/13.png";
-			img.alt = "3eck";
-			animationLength = 1;
-		}
-		else if (noteNumber == 149) {
-			img.src = "img/21.png";
-			img.alt = "4eck";
-			animationLength = 4;
-		}
-		else if (noteNumber == 150) {
-			img.src = "img/22.png";
-			img.alt = "4eck";
-			animationLength = 7;
-		}
-		else if (noteNumber == 151) {
-			img.src = "img/23.png";
-			img.alt = "4eck";
-			animationLength = 2;
-		}
+
 		img.style.WebkitAnimationDuration = animationLength + "s"; //Chrome, Safari, Opera
 		img.style.animationDuration = animationLength + "s";
 		img.id = "animationIMG";
@@ -159,40 +182,10 @@ function loadSounds(i) {
 
 	request.onload = function () {
 		context.decodeAudioData(request.response, function (buffer) {
-			sourceBuffers[i]= buffer;
-	
+			sourceBuffers[i] = buffer;
 		});
 	};
 	request.send();
-}
-
-// set our sound buffer and connect to destination
-function setupSound(i) {
-	if(i==155){
-		i=11;
-	} else if (i==156){
-		i=12
-	} else if (i==157) {
-		i=13
-	} else if (i==149){
-		i=21
-	} else if( i==150){
-		i=22
-	} else if (i==151){
-		i=23
-	} else if(i==143){
-		i=31
-	} else if (i==144){
-		i=32
-	}else {
-		i=33
-	}
-	sound = context.createBufferSource();
-	sound.buffer = sourceBuffers[i];
-	sound.connect(gainNode);
-	gainNode.connect(convolver);
-	convolver.connect(filter);
-	filter.connect(context.destination);
 }
 
 // play sound 
@@ -201,7 +194,37 @@ function playSound(i) {
 	sound.start(0);
 }
 
-//Frequenz, Lautstärke
+// set sound buffer and connect to destination
+function setupSound(i) {
+	if (i == 155) {
+		i = 11;
+	} else if (i == 156) {
+		i = 12
+	} else if (i == 157) {
+		i = 13
+	} else if (i == 149) {
+		i = 21
+	} else if (i == 150) {
+		i = 22
+	} else if (i == 151) {
+		i = 23
+	} else if (i == 143) {
+		i = 31
+	} else if (i == 144) {
+		i = 32
+	} else {
+		i = 33
+	}
+	sound = context.createBufferSource();
+	sound.buffer = sourceBuffers[i];
+	sound.connect(gainNode);
+	gainNode.connect(filter);
+	filter.connect(context.destination);
+}
+
+//--------------------------------------------Sound Bearbeitungsmöglichkeiten--------------------------------------------
+
+//Frequenz, Lautstärke(Gain)
 for (var i = 0; i < sliders.length; i++) {
 	sliders[i].addEventListener("mousemove", changeParameter);
 }
@@ -213,32 +236,38 @@ function changeParameter() {
 			document.getElementById("frequencyOutput").innerHTML = this.value + " Hz";
 			break;
 		case "gainSlider":
-			gainNode.gain.value = this.value / 20;
+			gainNode.gain.value = this.value/20;
 			document.getElementById("gainOutput").innerHTML = this.value + " dB";
 			break;
 	}
 }
 
-//Frequenz Filter
-selectFilter.addEventListener("change", function () {
-	filter.type = selectFilter.options[selectFilter.selectedIndex].value;
+//Filter
+selectFilter.addEventListener("change", function (e) {
+	filter.type = e.target.options[e.target.selectedIndex].value;
 });
 
 //Reverb
 var reverbName;
-selectReverb.addEventListener("change", function () {
-	reverbName = (selectReverb.options[selectReverb.selectedIndex].value);
+selectReverb.addEventListener("change", function (e) {
+	reverbName = (e.target.options[e.target.selectedIndex].value);
 
 	var request = new XMLHttpRequest();
 	request.open("GET", "impulseResponses/" + reverbName + ".wav", true);
 	request.responseType = "arraybuffer";
 
 	request.onload = function () {
-		var undecodedAudio = request.response;
-		context.decodeAudioData(undecodedAudio, function (buffer) {
-			convolver.buffer = buffer; //midi.js:242 Uncaught DOMException: Failed to set the 'buffer' property on 'ConvolverNode': Cannot set buffer to non-null after it has been already been set to a non-null buffer
+		context.decodeAudioData(request.response, function (buffer) {
+			if (convolver) { convolver.disconnect(); }
+			convolver = context.createConvolver();
+			convolver.buffer = buffer;
 			convolver.normalize = true;
+
+			filter.connect(convolver);
+			convolver.connect(context.destination);
 		});
 	};
 	request.send();
 });
+
+//--------------------------------------------Sound Download--------------------------------------------
