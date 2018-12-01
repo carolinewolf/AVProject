@@ -3,50 +3,44 @@
 #include <vector>
 #include "form.h"
 #include <QTextStream>
+#include <QTime>
+#include <QFuture>
+#include <QTimer>
+#include <QtConcurrent/QtConcurrent>
+#include <windows.h> // for Sleep
+#include <QObject>
+#include <senderobject.h>
+#include <QCoreApplication>
 #include <constants.h>
 
 using namespace cv;
 using namespace std;
 
-extern int frameHeight;
-extern int frameWidth;
+SenderObject cObject;
 extern int isTracking;
-
+bool threadStarted = false;
 FormKeyer::FormKeyer(){}
 
-void FormKeyer::connectMIDI(){
-    QStringList connections = midiOutput.connections(true);
-    midiOutput.open("LoopBe Internal MIDI");
-}
 
 Mat FormKeyer::process(const Mat &input){
+    input.copyTo(actualMat);
+    return input;
+}
 
-    if(!connectedMIDI) {
-        connectMIDI();
-        connectedMIDI = true;
-        input.copyTo(output);
-        frameWidthToByte = 255.0 / double(frameWidth);
-        frameHeightToByte = 255.0 / double(frameHeight);
-    }
-
-    if (counter > 200) {
-        cout << "-------------------------------------------" << endl;
-
-        cvtColor(input, hsvImage, CV_BGR2HSV);
-        createMasks();
-
-        vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask);
-        sendForms(allForms);
-
-        counter = 0;
-        redMask.copyTo(output);
-
-        return input;
+void FormKeyer::trackForms() {
+    if (!threadStarted) {
+        cObject.DoSetup(cThread);
+        cObject.moveToThread(&cThread);
+        threadStarted = true;
     } else {
-        counter += 1;
-        return input;
+        cThread.quit();
     }
+    cvtColor(actualMat, hsvImage, CV_BGR2HSV);
+    createMasks();
+    vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask);
 
+    cObject.setForms(allForms);
+    cThread.start();
 }
 
 void FormKeyer::createMasks() {
@@ -135,8 +129,11 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
                         y = 0;
                         break;
                     }
-                    vector<int> form = {formType, x, y};
-                    forms[i] = form;
+                    if(formType != 0) {
+                        vector<int> form = {formType, x, y};
+                        forms[i] = form;
+                    }
+
                 }
             }
         }
@@ -144,24 +141,5 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
     return forms;
 }
 
-void FormKeyer::sendForms(vector<vector<int>> forms) {
-    int countMIDI = 0;
-    if(forms.size() > 0) {
-        for(size_t i = 0; i < forms.size(); i ++) {
-            if(forms[i].size() > 0) {
-                if (forms[i][0] > 0) {
-                    vector<int> form = forms[i];
-                    midiX = frameWidthToByte * double(form[1]);
-                    midiY =  frameHeightToByte * double(form[2]);
-                    cout << "Form: " << form[0] << ", X: " << midiX << ", Y: " << midiY << endl;
-                    midiOutput.sendNoteOn(form[0], int(midiX), int(midiY));
-                    countMIDI ++;
-                }
-            }
-        }
-    }
-    cout << "----------------------" <<
-            "Gesendete MIDIs : " << countMIDI << endl << endl;
-}
 
 

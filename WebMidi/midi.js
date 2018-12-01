@@ -135,32 +135,32 @@ function initialize() {
 			case 149:
 				img.src = "img/21.png";
 				img.alt = "4eck";
-				animationLength = 4;
+				animationLength = 1;
 				break;
 			case 150:
 				img.src = "img/22.png";
 				img.alt = "4eck";
-				animationLength = 7;
+				animationLength = 1;
 				break;
 			case 151:
 				img.src = "img/23.png";
 				img.alt = "4eck";
-				animationLength = 2;
+				animationLength = 1;
 				break;
 			case 143:
 				img.src = "img/31.png";
 				img.alt = "5eck";
-				animationLength = 4; //anpassen
+				animationLength = 1; //anpassen
 				break;
 			case 144:
 				img.src = "img/32.png";
 				img.alt = "5eck";
-				animationLength = 7; //anpassen
+				animationLength = 1; //anpassen
 				break;
 			case 145:
 				img.src = "img/33.png";
 				img.alt = "5eck";
-				animationLength = 2; //anpassen
+				animationLength = 1; //anpassen
 				break;
 		}
 

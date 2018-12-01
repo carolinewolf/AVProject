@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui \
+            multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,13 +22,15 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     formkeyer.cpp \
-    form.cpp
+    form.cpp \
+    senderobject.cpp
 
 HEADERS += \
         mainwindow.h \
     formkeyer.h \
     form.h \
-    constants.h
+    constants.h \
+    senderobject.h
 
 FORMS += \
         mainwindow.ui
@@ -35,4 +38,7 @@ FORMS += \
 
 include(../opencv/videoengine.pri)
 include(../drumstick/drumstick.pro)
+
+RESOURCES += \
+    res.qrc
 
