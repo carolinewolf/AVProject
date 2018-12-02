@@ -19,19 +19,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Sounds Quadrate
-    soundPlayer[0].setMedia(QUrl("qrc:/sounds/sounds/11.wav"));
-    soundPlayer[1].setMedia(QUrl("qrc:/sounds/sounds/12.wav"));
-    soundPlayer[2].setMedia(QUrl("qrc:/sounds/sounds/13.wav"));
+    soundPlayer[0].setMedia(QUrl("qrc:/sounds/sounds/151.wav"));
+    soundPlayer[1].setMedia(QUrl("qrc:/sounds/sounds/149.wav"));
+    soundPlayer[2].setMedia(QUrl("qrc:/sounds/sounds/150.wav"));
 
     // Sounds Dreiecke
-    soundPlayer[3].setMedia(QUrl("qrc:/sounds/sounds/21.wav"));
-    soundPlayer[4].setMedia(QUrl("qrc:/sounds/sounds/22.wav"));
-    soundPlayer[5].setMedia(QUrl("qrc:/sounds/sounds/23.wav"));
+    soundPlayer[3].setMedia(QUrl("qrc:/sounds/sounds/157.wav"));
+    soundPlayer[4].setMedia(QUrl("qrc:/sounds/sounds/155.wav"));
+    soundPlayer[5].setMedia(QUrl("qrc:/sounds/sounds/156.wav"));
 
     // Sounds Pentagone
-    soundPlayer[6].setMedia(QUrl("qrc:/sounds/sounds/31.wav"));
-    soundPlayer[7].setMedia(QUrl("qrc:/sounds/sounds/32.wav"));
-    soundPlayer[8].setMedia(QUrl("qrc:/sounds/sounds/33.wav"));
+    soundPlayer[6].setMedia(QUrl("qrc:/sounds/sounds/145.wav"));
+    soundPlayer[7].setMedia(QUrl("qrc:/sounds/sounds/143.wav"));
+    soundPlayer[8].setMedia(QUrl("qrc:/sounds/sounds/144.wav"));
 
     // VideoEngine vorbeiten und Kamera öffnen
     videoEngine.setProcessedWidget(ui->inputFrame_2);

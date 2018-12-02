@@ -1,14 +1,14 @@
 <RCC>
     <qresource prefix="/sounds">
-        <file>sounds/11.wav</file>
-        <file>sounds/12.wav</file>
-        <file>sounds/13.wav</file>
-        <file>sounds/23.wav</file>
-        <file>sounds/32.wav</file>
-        <file>sounds/33.wav</file>
-        <file>sounds/22.wav</file>
-        <file>sounds/31.wav</file>
-        <file>sounds/21.wav</file>
+        <file>sounds/143.wav</file>
+        <file>sounds/144.wav</file>
+        <file>sounds/145.wav</file>
+        <file>sounds/149.wav</file>
+        <file>sounds/150.wav</file>
+        <file>sounds/151.wav</file>
+        <file>sounds/155.wav</file>
+        <file>sounds/156.wav</file>
+        <file>sounds/157.wav</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/dreieck_blau.png</file>
