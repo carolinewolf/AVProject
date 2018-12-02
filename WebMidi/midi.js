@@ -119,48 +119,48 @@ function initialize() {
 		switch (noteNumber) {
 			case 155:
 				img.src = "img/155.png";
-				img.alt = "3eck";
+				img.alt = "greenTriangle";
 				animationLength = 1;
 				break;
 			case 156:
 				img.src = "img/156.png";
-				img.alt = "3eck";
+				img.alt = "blueTriangle";
 				animationLength = 1;
 				break;
 			case 157:
 				img.src = "img/157.png";
-				img.alt = "3eck";
+				img.alt = "redTriangle";
 				animationLength = 1;
 				break;
 			case 149:
 				img.src = "img/149.png";
-				img.alt = "4eck";
+				img.alt = "greenQuad";
 				animationLength = 1;
 				break;
 			case 150:
 				img.src = "img/150.png";
-				img.alt = "4eck";
+				img.alt = "blueQuad";
 				animationLength = 1;
 				break;
 			case 151:
 				img.src = "img/151.png";
-				img.alt = "4eck";
+				img.alt = "redQuad";
 				animationLength = 1;
 				break;
 			case 143:
 				img.src = "img/143.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.alt = "greenPentagon";
+				animationLength = 1; 
 				break;
 			case 144:
 				img.src = "img/144.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.alt = "bluePentagon";
+				animationLength = 1; 
 				break;
 			case 145:
 				img.src = "img/145.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.alt = "redPentagon";
+				animationLength = 1; 
 				break;
 		}
 
