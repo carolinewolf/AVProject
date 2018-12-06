@@ -50,17 +50,17 @@ var allFrequencies = [
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
 var downloadButton = document.getElementById("downloadButton");
-var sound11, sound12, sound13, sound21, sound22, sound23, sound31, sound32, sound33;
-var sourceBuffers = [sound11, sound12, sound13, sound21, sound22, sound23, sound31, sound32, sound33];
-var soundNumber = 33;
+var sound155, sound156, sound157, sound149, sound150, sound151, sound143, sound144, sound145;
+var sourceBuffers = [sound155, sound156, sound157, sound149, sound150, sound151, sound143, sound144, sound145];
+var soundNumber = 157;
 var sound;
 
 
 //--------------------------------------------Midi und Sound-Visualisierung --------------------------------------------
 
 function initialize() {
-	for (let i = 11; i <= soundNumber; i++) { 	//load sounds in buffer
-		if (i == 11 || i == 12 || i == 13 || i == 21 || i == 22 || i == 23 || i == 31 || i == 32 || i == 33) {
+	for (let i = 143; i <= soundNumber; i++) { 	//load sounds in buffer
+		if (i == 155 || i == 156 || i == 157 || i == 149 || i == 150 || i == 151 || i == 143 || i == 144 || i == 145) {
 			loadSounds(i);
 		}
 	}
@@ -118,49 +118,49 @@ function initialize() {
 
 		switch (noteNumber) {
 			case 155:
-				img.src = "img/11.png";
-				img.alt = "3eck";
+				img.src = "img/155.png";
+				img.alt = "greenTriangle";
 				animationLength = 1;
 				break;
 			case 156:
-				img.src = "img/12.png";
-				img.alt = "3eck";
+				img.src = "img/156.png";
+				img.alt = "blueTriangle";
 				animationLength = 1;
 				break;
 			case 157:
-				img.src = "img/13.png";
-				img.alt = "3eck";
+				img.src = "img/157.png";
+				img.alt = "redTriangle";
 				animationLength = 1;
 				break;
 			case 149:
-				img.src = "img/21.png";
-				img.alt = "4eck";
+				img.src = "img/149.png";
+				img.alt = "greenQuad";
 				animationLength = 1;
 				break;
 			case 150:
-				img.src = "img/22.png";
-				img.alt = "4eck";
+				img.src = "img/150.png";
+				img.alt = "blueQuad";
 				animationLength = 1;
 				break;
 			case 151:
-				img.src = "img/23.png";
-				img.alt = "4eck";
+				img.src = "img/151.png";
+				img.alt = "redQuad";
 				animationLength = 1;
 				break;
 			case 143:
-				img.src = "img/31.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.src = "img/143.png";
+				img.alt = "greenPentagon";
+				animationLength = 1; 
 				break;
 			case 144:
-				img.src = "img/32.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.src = "img/144.png";
+				img.alt = "bluePentagon";
+				animationLength = 1; 
 				break;
 			case 145:
-				img.src = "img/33.png";
-				img.alt = "5eck";
-				animationLength = 1; //anpassen
+				img.src = "img/145.png";
+				img.alt = "redPentagon";
+				animationLength = 1; 
 				break;
 		}
 
@@ -196,25 +196,6 @@ function playSound(i) {
 
 // set sound buffer and connect to destination
 function setupSound(i) {
-	if (i == 155) {
-		i = 11;
-	} else if (i == 156) {
-		i = 12
-	} else if (i == 157) {
-		i = 13
-	} else if (i == 149) {
-		i = 21
-	} else if (i == 150) {
-		i = 22
-	} else if (i == 151) {
-		i = 23
-	} else if (i == 143) {
-		i = 31
-	} else if (i == 144) {
-		i = 32
-	} else {
-		i = 33
-	}
 	sound = context.createBufferSource();
 	sound.buffer = sourceBuffers[i];
 	sound.connect(gainNode);
