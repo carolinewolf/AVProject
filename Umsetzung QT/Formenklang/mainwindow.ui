@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>650</height>
+    <width>1570</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>930</width>
-    <height>650</height>
+    <width>1570</width>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>930</width>
-    <height>650</height>
+    <width>1570</width>
+    <height>700</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -39,10 +39,10 @@ color: #ffffff;</string>
    <widget class="QPushButton" name="playStopBtn">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>570</y>
-      <width>931</width>
-      <height>81</height>
+      <x>1090</x>
+      <y>630</y>
+      <width>471</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -54,7 +54,6 @@ background-color: #33bdef;
 selection-color: #ffffff ;
 selection-background-color: #33bdef ; 
 border: 0;
-cursor:pointer;
 }
 #playStopBtn:hover {
 color: #ffffff;
@@ -68,11 +67,11 @@ border: 0;
      <string>Tracking starten</string>
     </property>
    </widget>
-   <widget class="VideoWidget" name="inputFrame_2">
+   <widget class="VideoWidget" name="inputImage">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>90</y>
+      <x>290</x>
+      <y>140</y>
       <width>640</width>
       <height>480</height>
      </rect>
@@ -95,11 +94,11 @@ width: 100%;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QWidget" name="formatContainer" native="true">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>90</y>
+      <x>0</x>
+      <y>140</y>
       <width>291</width>
       <height>480</height>
      </rect>
@@ -110,8 +109,8 @@ width: 100%;</string>
     <widget class="QPushButton" name="quadrat_rot">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>270</y>
+       <x>180</x>
+       <y>210</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -131,7 +130,7 @@ background-repeat: none;
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>90</y>
+       <y>210</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -150,8 +149,8 @@ background-repeat: none;
     <widget class="QPushButton" name="quadrat_blau">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>180</y>
+       <x>100</x>
+       <y>210</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -170,8 +169,8 @@ background-repeat: none;
     <widget class="QPushButton" name="dreieck_blau">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>180</y>
+       <x>100</x>
+       <y>60</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -190,8 +189,8 @@ background-repeat: none;
     <widget class="QPushButton" name="dreieck_gruen">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>90</y>
+       <x>20</x>
+       <y>60</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -210,8 +209,8 @@ background-repeat: none;
     <widget class="QPushButton" name="dreieck_rot">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>270</y>
+       <x>180</x>
+       <y>60</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -230,8 +229,8 @@ background-repeat: none;
     <widget class="QPushButton" name="pentagon_rot">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>270</y>
+       <x>180</x>
+       <y>350</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -250,8 +249,8 @@ background-repeat: none;
     <widget class="QPushButton" name="pentagon_gruen">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>90</y>
+       <x>20</x>
+       <y>350</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -270,8 +269,8 @@ background-repeat: none;
     <widget class="QPushButton" name="pentagon_blau">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>180</y>
+       <x>100</x>
+       <y>350</y>
        <width>80</width>
        <height>80</height>
       </rect>
@@ -287,25 +286,78 @@ background-repeat: none;
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>0</x>
        <y>20</y>
-       <width>281</width>
-       <height>41</height>
+       <width>291</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 20px;
-font-weight: bold;
+      <string notr="true">font-size: 16px;
 color: #202d3a;
+padding-left:25px;
+font-weight:bold;
 </string>
      </property>
      <property name="text">
-      <string>Sounds testen</string>
+      <string>Bass</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 16px;
+color: #202d3a;
+padding-left:25px;
+font-weight:bold;
+</string>
+     </property>
+     <property name="text">
+      <string>Gitarre</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>310</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 16px;
+color: #202d3a;
+padding-left:25px;
+font-weight:bold;
+</string>
+     </property>
+     <property name="text">
+      <string>Bass</string>
+     </property>
+    </widget>
+    <zorder>label_5</zorder>
+    <zorder>label_6</zorder>
+    <zorder>label_7</zorder>
+    <zorder>quadrat_rot</zorder>
+    <zorder>quadrat_gruen</zorder>
+    <zorder>quadrat_blau</zorder>
+    <zorder>dreieck_blau</zorder>
+    <zorder>dreieck_gruen</zorder>
+    <zorder>dreieck_rot</zorder>
+    <zorder>pentagon_rot</zorder>
+    <zorder>pentagon_gruen</zorder>
+    <zorder>pentagon_blau</zorder>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -324,6 +376,146 @@ font-weight: bold;
     <property name="text">
      <string>Formenklang</string>
     </property>
+   </widget>
+   <widget class="VideoWidget" name="trackedImage">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>140</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 0;
+background-color: #999999;
+width: 100%;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="countDownLabel">
+    <property name="geometry">
+     <rect>
+      <x>1490</x>
+      <y>20</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 24px;
+font-weight: bold;
+background-color: #33bdef;
+border-radius: 24px;
+</string>
+    </property>
+    <property name="text">
+     <string>10</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="newTrackingInLabel">
+    <property name="geometry">
+     <rect>
+      <x>1270</x>
+      <y>-1</y>
+      <width>201</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:24px;
+</string>
+    </property>
+    <property name="text">
+     <string>Neues Tracking in</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>1571</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #121a21;</string>
+    </property>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 20px;
+font-weight: bold;
+color: #ffffff;
+padding-left:25px;
+</string>
+     </property>
+     <property name="text">
+      <string>Sounds testen</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>0</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 20px;
+font-weight: bold;
+color: #ffffff;
+padding-left:25px;
+</string>
+     </property>
+     <property name="text">
+      <string>Live-Video</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>0</y>
+       <width>291</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 20px;
+font-weight: bold;
+color: #ffffff;
+padding-left:25px;
+</string>
+     </property>
+     <property name="text">
+      <string>Getracktes Bild</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

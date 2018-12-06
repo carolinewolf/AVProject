@@ -4,9 +4,11 @@
 #include <QTextStream>
 
 using namespace std;
+using namespace cv;
 
 extern int frameHeight;
 extern int frameWidth;
+Point point;
 
 SenderObject::SenderObject(QObject *parent) : QObject(parent){}
 
@@ -52,6 +54,8 @@ void SenderObject::DoWork() {
                     QThread::sleep(long(midiX - lastPlayedForm));
                     lastPlayedForm = midiX;
 
+                    point = Point(form[1], form[2]);
+
                     midiOutput.sendNoteOn(form[0], int(midiX), int(midiY));
                     countMIDI ++;
                 }
@@ -63,4 +67,8 @@ void SenderObject::DoWork() {
 
 void SenderObject::setForms(vector<vector<int>> allForms) {
     forms = allForms;
+}
+
+void SenderObject::setImage(cv::Mat image) {
+    pointedImage = image;
 }

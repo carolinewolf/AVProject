@@ -19,12 +19,25 @@ using namespace std;
 SenderObject cObject;
 extern int isTracking;
 bool threadStarted = false;
+bool hasTrackedImage = false;
+extern Point point;
+
 FormKeyer::FormKeyer(){}
 
 
 Mat FormKeyer::process(const Mat &input){
+    Mat image(input.rows, input.cols, input.type(), Scalar(100,100,100));
+    if(!hasTrackedImage) {
+        image.copyTo(trackedMat);
+        hasTrackedImage = true;
+    }
     input.copyTo(actualMat);
-    return input;
+
+
+    if (point.x > 0) {
+        circle(trackedMat, point, 20, cv::Scalar(255,0,0), CV_FILLED);
+    }
+    return trackedMat;
 }
 
 void FormKeyer::trackForms() {
@@ -39,6 +52,7 @@ void FormKeyer::trackForms() {
     createMasks();
     vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask);
 
+    actualMat.copyTo(trackedMat);
     cObject.setForms(allForms);
     cThread.start();
 }
@@ -140,6 +154,3 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
     }
     return forms;
 }
-
-
-

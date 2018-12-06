@@ -21,12 +21,12 @@ public:
     cv::Mat morphImage(const cv::Mat mask);
     std::vector<std::vector<int>> getAllForms(cv::Mat greenMask, cv::Mat redMask, cv::Mat blueMask);
     void trackForms();
-
+    std::vector<cv::Point> points;
 
 private slots:
 
 private:
-    cv::Mat actualMat, hsvImage, redMask, greenMask, blueMask,lowerRedHueMask, upperRedHueMask;
+    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask,lowerRedHueMask, upperRedHueMask;
     QThread cThread;
 };
 

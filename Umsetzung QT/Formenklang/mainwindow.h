@@ -6,6 +6,7 @@
 #include <QThread>
 #include "videoengine.h"
 #include "formkeyer.h"
+#include <QTime>
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +23,7 @@ public:
 
 
 private slots:
-    void on_pushButton_clicked();
+    void countDown();
     void timerActivated();
     void on_playStopBtn_clicked();
     void on_quadrat_rot_clicked();
@@ -39,7 +40,9 @@ private:
     Ui::MainWindow *ui;
     VideoEngine videoEngine;
     FormKeyer formKeyer;
-QThread cThread;
+    int counter;
+
+    QThread cThread;
 };
 
 #endif
