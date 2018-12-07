@@ -1,7 +1,7 @@
 var context = new AudioContext();
 var filter = context.createBiquadFilter(); //für Frequenz
-var convolver = context.createConvolver(); //für Nachhall Reverb
-var gainNode = context.createGain(); //für Lautstärke
+var convolver = context.createConvolver(); //für Reverb
+var gainNode = context.createGain(); //für GesamtLautstärke
 var selectReverb = document.getElementById("selectReverb");
 var selectFilter = document.getElementById("selectFilter");
 var allFrequencies = [
@@ -49,22 +49,21 @@ var allFrequencies = [
 	9956.06347910659, 10548.081821211836, 11175.303405856126,
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
-var downloadButton = document.getElementById("downloadButton");
-var sound155, sound156, sound157, sound149, sound150, sound151, sound143, sound144, sound145;
-var sourceBuffers = [sound155, sound156, sound157, sound149, sound150, sound151, sound143, sound144, sound145];
-var soundNumber = 157;
+//var downloadButton = document.getElementById("downloadButton");
+var sourceBuffers = [];
+var soundNumbers = [155, 156, 157, 149, 150, 151, 143, 144, 145];
 var sound;
 
 
 //--------------------------------------------Midi und Sound-Visualisierung --------------------------------------------
 
 function initialize() {
-	for (let i = 143; i <= soundNumber; i++) { 	//load sounds in buffer
-		if (i == 155 || i == 156 || i == 157 || i == 149 || i == 150 || i == 151 || i == 143 || i == 144 || i == 145) {
-			loadSounds(i);
-		}
+	//load sounds in buffer
+	for (let p = 0; p < soundNumbers.length; p++) {
+		loadSounds(soundNumbers[p]);
 	}
 
+	//MIDI
 	let midi = null;  // global MIDIAccess object
 	let midiInputs = [];
 	function onMIDISuccess(midiAccess) {
@@ -107,20 +106,22 @@ function initialize() {
 		noteOn(event.data[0], event.data[1], event.data[2]); //noteNumber, x, y
 	}
 
+	//Form-Sound-Zuordnung --> noteOn-Funktion
 	var animationLength;
 	var soundVolume;
 	function noteOn(noteNumber, x, y) {
+		console.log("y_wert = " + y);
 		var img = document.createElement("img");
-		playSound(noteNumber);
-		//y=Lautstärke Werte von 0-640 auf 0-100 umrechnen
-		soundVolume=Math.round((100/640)*y) // ergibt gerundeten Wert zwischen 0 und 100 
-		//x=Abspielstartzeit Werte von 0-480 auf x Sekunden umrechnen
+		//y=Lautstärke Werte von 0-480 auf 0-100 umrechnen
+		soundVolume = Math.round((100 / 480) * y) // ergibt gerundeten Wert zwischen 0 und 100 
+		console.log("soundVolume = " + soundVolume);
+		playSound(noteNumber, soundVolume);
 
 		switch (noteNumber) {
 			case 155:
 				img.src = "img/155.png";
 				img.alt = "greenTriangle";
-				animationLength = 1;
+				animationLength = 1; // TODO: hübsch machen !!!!!!!!!!!!!!!!!!!!!!!!!!
 				break;
 			case 156:
 				img.src = "img/156.png";
@@ -150,17 +151,17 @@ function initialize() {
 			case 143:
 				img.src = "img/143.png";
 				img.alt = "greenPentagon";
-				animationLength = 1; 
+				animationLength = 1;
 				break;
 			case 144:
 				img.src = "img/144.png";
 				img.alt = "bluePentagon";
-				animationLength = 1; 
+				animationLength = 1;
 				break;
 			case 145:
 				img.src = "img/145.png";
 				img.alt = "redPentagon";
-				animationLength = 1; 
+				animationLength = 1;
 				break;
 		}
 
@@ -182,23 +183,28 @@ function loadSounds(i) {
 
 	request.onload = function () {
 		context.decodeAudioData(request.response, function (buffer) {
-			sourceBuffers[i] = buffer;
+			sourceBuffers[i] = buffer; //TODO: PRÜFEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		});
 	};
 	request.send();
 }
 
 // play sound 
-function playSound(i) {
-	setupSound(i);
+function playSound(i, soundVolume) {
+	setupSound(i, soundVolume);
 	sound.start(0);
 }
 
 // set sound buffer and connect to destination
-function setupSound(i) {
+function setupSound(i, soundVolume) {
+	var gainNodeSound = context.createGain(); //für individuelle Lautstärke
+	gainNodeSound.gain.value = soundVolume / 100; //unten laut, oben leise
+	console.log("value " + gainNodeSound.gain.value);
+
 	sound = context.createBufferSource();
 	sound.buffer = sourceBuffers[i];
-	sound.connect(gainNode);
+	sound.connect(gainNodeSound);
+	gainNodeSound.connect(gainNode)
 	gainNode.connect(filter);
 	filter.connect(context.destination);
 }
@@ -217,7 +223,7 @@ function changeParameter() {
 			document.getElementById("frequencyOutput").innerHTML = this.value + " Hz";
 			break;
 		case "gainSlider":
-			gainNode.gain.value = this.value/20;
+			gainNode.gain.value = this.value / 100;
 			document.getElementById("gainOutput").innerHTML = this.value + " dB";
 			break;
 	}
@@ -252,3 +258,69 @@ selectReverb.addEventListener("change", function (e) {
 });
 
 //--------------------------------------------Sound Download--------------------------------------------
+
+//https://addpipe.com/blog/using-recorder-js-to-capture-wav-audio-in-your-html5-web-site/
+//https://addpipe.com/blog/using-webaudiorecorder-js-to-record-audio-on-your-website/
+
+var recorder = false;
+var recordingstream = false;
+
+var record = document.querySelector('#record');
+var stop = document.querySelector('#stop');
+const chunks = [];
+
+record.onclick = function startrecording() {
+
+	recordingstream = context.createMediaStreamDestination();
+	recorder = new MediaRecorder(recordingstream.stream);
+
+	recorder.start();
+	console.log(recorder.state);
+	console.log("recorder started");
+	record.style.background = "red";
+	stop.disabled = false;
+	record.disabled = true;
+}
+
+stop.onclick = function stoprecording() {
+	//recorder.requestData();
+	recorder.stop();
+	console.log(recorder.state);
+	console.log("recorder stopped");
+	record.style.background = "";
+	record.style.color = "";
+	stop.disabled = true;
+	record.disabled = false;
+}
+
+//Wird nie aufgerufen---------------------------------------------------------------------PROBLEM
+recorder.onstop = function (e) {
+	console.log("data available after MediaRecorder.stop() called.");
+
+	var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+	var audioURL = window.URL.createObjectURL(blob);
+	console.log(audioURL);
+	console.log("recorder stopped 2");
+	//<button id="downloadButton"><i class="fas fa-download"></i><a href=""></a></button>
+	var downloadButton = document.createElement("downloadButton");
+	var link = document.createElement('a');
+	link.setAttribute("href", audioURL);
+	downloadButton.innerHTML = "Download";
+	downloadButton.appendChild(link);
+
+	var downloadSection = document.getElementById("downloadSection");
+	downloadSection.appendChild(downloadButton);
+
+	downloadButton.addEventListener("click", function () {
+		console.log("button clicked");
+	});
+}
+
+//Wird nie aufgerufen---------------------------------------------------------------------PROBLEM
+recorder.ondataavailable = function (e) { //push chunk (blob) in an array
+	chunks.push(e.data);
+	console.log("data Available");
+}
+
+
+
