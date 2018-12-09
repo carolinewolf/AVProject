@@ -49,7 +49,7 @@ var allFrequencies = [
 	9956.06347910659, 10548.081821211836, 11175.303405856126,
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
-//var downloadButton = document.getElementById("downloadButton");
+var downloadButton = document.getElementById("downloadButton");
 var sourceBuffers = [];
 var soundNumbers = [155, 156, 157, 149, 150, 151, 143, 144, 145];
 var sound;
@@ -267,7 +267,7 @@ var recordingstream = false;
 
 var record = document.querySelector('#record');
 var stop = document.querySelector('#stop');
-const chunks = [];
+var chunks = [];
 
 record.onclick = function startrecording() {
 
@@ -291,36 +291,30 @@ stop.onclick = function stoprecording() {
 	record.style.color = "";
 	stop.disabled = true;
 	record.disabled = false;
+
+	recorder.onstop = function (e) {
+		console.log("data available after MediaRecorder.stop() called.");
+
+		var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+		var audioURL = window.URL.createObjectURL(blob);
+		console.log(audioURL);
+		console.log("recorder stopped 2");
+		downloadButton.controls=true;
+		downloadButton.href= audioURL;
+		console.log(downloadButton.href);
+
+		downloadButton.addEventListener("click", function () {
+			console.log("button clicked");
+		});
+	}
+
+	recorder.ondataavailable = function (e) { //push chunk (blob) in an array
+		chunks.push(e.data);
+		console.log("data Available");
+	}
+
 }
 
-//Wird nie aufgerufen---------------------------------------------------------------------PROBLEM
-recorder.onstop = function (e) {
-	console.log("data available after MediaRecorder.stop() called.");
-
-	var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
-	var audioURL = window.URL.createObjectURL(blob);
-	console.log(audioURL);
-	console.log("recorder stopped 2");
-	//<button id="downloadButton"><i class="fas fa-download"></i><a href=""></a></button>
-	var downloadButton = document.createElement("downloadButton");
-	var link = document.createElement('a');
-	link.setAttribute("href", audioURL);
-	downloadButton.innerHTML = "Download";
-	downloadButton.appendChild(link);
-
-	var downloadSection = document.getElementById("downloadSection");
-	downloadSection.appendChild(downloadButton);
-
-	downloadButton.addEventListener("click", function () {
-		console.log("button clicked");
-	});
-}
-
-//Wird nie aufgerufen---------------------------------------------------------------------PROBLEM
-recorder.ondataavailable = function (e) { //push chunk (blob) in an array
-	chunks.push(e.data);
-	console.log("data Available");
-}
 
 
 
