@@ -21,8 +21,9 @@ public slots:
 private:
     FormKeyer formKeyer;
     std::vector<std::vector<int>> forms;
+    std::vector<std::vector<int>> filteredForms;
     cv::Mat pointedImage;
-    double frameWidthTo10Seconds, frameHeightToByte, frameWidthToMilli;
+    double frameWidthToSeconds, frameHeightToByte, frameWidthToMilli;
     double midiX, midiY, waitTime;
     drumstick::rt::MIDIOutput midiOutput;
 };

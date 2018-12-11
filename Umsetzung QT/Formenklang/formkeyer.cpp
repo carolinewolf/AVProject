@@ -120,7 +120,7 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
     if (color == 1) {colorText = "Gruen";}
     else if (color == 2) {colorText = "Blau";}
     else if (color == 3) {colorText = "Rot";}
-    else if (color == 4) {colorText = "Schwarz";}
+    else if (color == 4) {colorText = "Geld";}
 
     for(size_t i = 0; i < contours.size(); i++){
         if(contours[i].size() > 20){
