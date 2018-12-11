@@ -1,7 +1,7 @@
 var context = new AudioContext();
-var filter = context.createBiquadFilter(); //für Frequenz
-var convolver = context.createConvolver(); //für Reverb
-var gainNode = context.createGain(); //für GesamtLautstärke
+var filter = context.createBiquadFilter(); //for Frequency
+var convolver = context.createConvolver(); //for Reverb
+var gainNode = context.createGain(); //for mainVolume
 var selectReverb = document.getElementById("selectReverb");
 var selectFilter = document.getElementById("selectFilter");
 var allFrequencies = [
@@ -49,13 +49,13 @@ var allFrequencies = [
 	9956.06347910659, 10548.081821211836, 11175.303405856126,
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
-var downloadButton = document.getElementById("downloadButton");
+//var downloadButton = document.getElementById("downloadButton");
 var sourceBuffers = [];
 var soundNumbers = [155, 156, 157, 149, 150, 151, 143, 144, 145];
 var sound;
 
 
-//--------------------------------------------Midi und Sound-Visualisierung --------------------------------------------
+//--------------------------------------------Midi and Sound-Visualisation --------------------------------------------
 
 function initialize() {
 	//load sounds in buffer
@@ -68,7 +68,7 @@ function initialize() {
 	let midiInputs = [];
 	function onMIDISuccess(midiAccess) {
 		console.log("MIDI ready!");
-		midi = midiAccess;  // store in the global (in real usage, would probably keep in an object instance)
+		midi = midiAccess;
 		listInputsAndOutputs(midi);
 	}
 
@@ -108,16 +108,11 @@ function initialize() {
 		noteOn(event.data[0], event.data[1], event.data[2]); //noteNumber, x, y
 	}
 
-	//Form-Sound-Zuordnung --> noteOn-Funktion
+	//Form-Sound-Matching --> noteOn-Function
 	var animationLength;
-	var soundVolume;
 	function noteOn(noteNumber, x, y) {
-		console.log("y_wert = " + y);
 		var img = document.createElement("img");
-		//y=Lautstärke Werte von 0-480 auf 0-100 umrechnen
-		soundVolume = Math.round((100 / 100) * y) // ergibt gerundeten Wert zwischen 0 und 100 
-		console.log("soundVolume = " + soundVolume);
-		playSound(noteNumber, soundVolume);
+		playSound(noteNumber, y);
 
 		switch (noteNumber) {
 			case 155:
@@ -199,21 +194,20 @@ function playSound(i, soundVolume) {
 
 // set sound buffer and connect to destination
 function setupSound(i, soundVolume) {
-	var gainNodeSound = context.createGain(); //für individuelle Lautstärke
-	gainNodeSound.gain.value = soundVolume / 100; //unten laut, oben leise
+	var gainNodeSound = context.createGain(); //for individual Volume
+	gainNodeSound.gain.value = 1 - (soundVolume / 100);
 	console.log("value " + gainNodeSound.gain.value);
 
 	sound = context.createBufferSource();
 	sound.buffer = sourceBuffers[i];
 	sound.connect(gainNodeSound);
 	gainNodeSound.connect(gainNode)
-	gainNode.connect(filter);
-	filter.connect(context.destination);
+	gainNode.connect(context.destination);
 }
 
-//--------------------------------------------Sound Bearbeitungsmöglichkeiten--------------------------------------------
+//--------------------------------------------Sound changing Parameters--------------------------------------------
 
-//Frequenz, Lautstärke(Gain)
+//Frequency, Volume(Gain)
 for (var i = 0; i < sliders.length; i++) {
 	sliders[i].addEventListener("mousemove", changeParameter);
 }
@@ -222,6 +216,7 @@ function changeParameter() {
 	switch (this.id) {
 		case "frequencySlider":
 			filter.frequency.value = this.value;
+			console.log("Frequency: " + filter.frequency.value)
 			document.getElementById("frequencyOutput").innerHTML = this.value + " Hz";
 			break;
 		case "gainSlider":
@@ -232,31 +227,45 @@ function changeParameter() {
 }
 
 //Filter
-selectFilter.addEventListener("change", function (e) {
-	filter.type = e.target.options[e.target.selectedIndex].value;
+selectFilter.addEventListener("change", function (e) { //TODO: Testen!!!!!!!!!!!!
+	if ((e.target.selectedIndex) == 0) { //filter = none
+		console.log("DISCONNECT FILTER");
+		filter.disconnect(context.destination);
+	} else {
+		//gainNode.connect(filter);
+		filter.connect(context.destination);
+		console.log(e.target.options[e.target.selectedIndex].value);
+		filter.type = e.target.options[e.target.selectedIndex].value;
+	}
+
 });
 
 //Reverb
 var reverbName;
 selectReverb.addEventListener("change", function (e) {
-	reverbName = (e.target.options[e.target.selectedIndex].value);
+	reverbName = (e.target.options[e.target.selectedIndex].value); //TODO: Testen!!!!!!!!!!!!
+	if ((e.target.selectedIndex) == 0) { //reverb == none
+		convolver.disconnect();
+	}
+	else {
 
-	var request = new XMLHttpRequest();
-	request.open("GET", "impulseResponses/" + reverbName + ".wav", true);
-	request.responseType = "arraybuffer";
+		var request = new XMLHttpRequest();
+		request.open("GET", "impulseResponses/" + reverbName + ".wav", true);
+		request.responseType = "arraybuffer";
 
-	request.onload = function () {
-		context.decodeAudioData(request.response, function (buffer) {
-			if (convolver) { convolver.disconnect(); }
-			convolver = context.createConvolver();
-			convolver.buffer = buffer;
-			convolver.normalize = true;
+		request.onload = function () {
+			context.decodeAudioData(request.response, function (buffer) {
+				if (convolver) { convolver.disconnect(); }
+				convolver = context.createConvolver();
+				convolver.buffer = buffer;
+				convolver.normalize = true;
 
-			filter.connect(convolver);
-			convolver.connect(context.destination);
-		});
-	};
-	request.send();
+				//filter.connect(convolver);
+				convolver.connect(context.destination);
+			});
+		};
+		request.send();
+	}
 });
 
 //--------------------------------------------Sound Download--------------------------------------------
@@ -264,7 +273,7 @@ selectReverb.addEventListener("change", function (e) {
 //https://addpipe.com/blog/using-recorder-js-to-capture-wav-audio-in-your-html5-web-site/
 //https://addpipe.com/blog/using-webaudiorecorder-js-to-record-audio-on-your-website/
 
-var recorder = false;
+/*var recorder = false;
 var recordingstream = false;
 
 var record = document.querySelector('#record');
@@ -315,7 +324,7 @@ stop.onclick = function stoprecording() {
 		console.log("data Available");
 	}
 
-}
+} */
 
 
 
