@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     videoEngine.setInputWidget(ui->inputImage);
     videoEngine.setProcessedWidget(ui->trackedImage);
     videoEngine.setProcessor(&formKeyer);
-    const int deviceNumber = 0;
+    const int deviceNumber = 1;
     videoEngine.openCamera(deviceNumber + cv::CAP_DSHOW);
     videoEngine.start();
 
@@ -64,7 +64,7 @@ void MainWindow::on_playStopBtn_clicked()
     ui->newTrackingInLabel->show();
 
     timer->singleShot(0, this, SLOT(timerActivated()));
-    timer->start(10000);
+    timer->start(5000);
 }
 
 
@@ -76,7 +76,7 @@ void MainWindow::timerActivated() {
         QObject::connect(timerCountdown, SIGNAL(timeout()), this, SLOT(countDown()));
         isCountDownActive = true;
     }
-    counter = 10;
+    counter = 5;
     ui->countDownLabel->setText(QString::number(counter));
 
     timerCountdown->start(1000);

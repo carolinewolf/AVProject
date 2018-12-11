@@ -35,7 +35,7 @@ Mat FormKeyer::process(const Mat &input){
 
 
     if (point.x > 0) {
-        circle(trackedMat, point, 20, cv::Scalar(255,0,0), CV_FILLED);
+        circle(trackedMat, point, 5, cv::Scalar(255,255,255), CV_FILLED);
     }
     return trackedMat;
 }
@@ -70,10 +70,16 @@ void FormKeyer::createMasks() {
     // Blue Mask
     inRange(hsvImage, Scalar(blueHueLower, blueSatLower, blueLigLower), Scalar(blueHueUpper, blueSatUpper, blueLigUpper), blueMask);
 
+    // Black Mask
+    inRange(hsvImage, Scalar(blackHueLower, blackSatLower, blackLigLower), Scalar(blackHueUpper, blackSatUpper, blackLigUpper), blackMask);
+
+
     // Morph Masks
     blueMask = morphImage(blueMask);
     greenMask = morphImage(greenMask);
     redMask = morphImage(redMask);
+    blackMask = morphImage(blackMask);
+
 }
 
 Mat FormKeyer::morphImage(Mat mask) {
@@ -87,13 +93,15 @@ vector<vector<int>> FormKeyer::getAllForms(Mat greenMask, Mat redMask, Mat blueM
     vector<vector<int>> greenForms = detectForms(greenMask, GREEN_FORM);
     vector<vector<int>> redForms = detectForms(redMask, RED_FORM);
     vector<vector<int>> blueForms = detectForms(blueMask, BLUE_FORM);
+    vector<vector<int>> blackForms = detectForms(blackMask, BLACK_FORM);
     vector<vector<int>> allForms;
 
     // Combine Forms
-    allForms.reserve( greenForms.size() + redForms.size() + blueForms.size() );
+    allForms.reserve( greenForms.size() + redForms.size() + blueForms.size() + blackForms.size() );
     allForms.insert( allForms.end(), greenForms.begin(), greenForms.end() );
     allForms.insert( allForms.end(), redForms.begin(), redForms.end() );
     allForms.insert( allForms.end(), blueForms.begin(), blueForms.end() );
+    allForms.insert( allForms.end(), blackForms.begin(), blackForms.end() );
     return allForms;
 }
 
@@ -109,6 +117,7 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
     if (color == 1) {colorText = "Gruen";}
     else if (color == 2) {colorText = "Blau";}
     else if (color == 3) {colorText = "Rot";}
+    else if (color == 4) {colorText = "Schwarz";}
 
     for(size_t i = 0; i < contours.size(); i++){
         if(contours[i].size() > 20){

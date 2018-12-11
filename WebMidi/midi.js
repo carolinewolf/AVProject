@@ -103,6 +103,8 @@ function initialize() {
 		return midiInput;
 	}
 	function MIDIMessageEventHandler(event) {
+		console.log("--------------------------------------");
+		console.log("Sound: " + event.data[0] + " X: " + event.data[1] + " Y: " + event.data[2]);
 		noteOn(event.data[0], event.data[1], event.data[2]); //noteNumber, x, y
 	}
 
@@ -113,7 +115,7 @@ function initialize() {
 		console.log("y_wert = " + y);
 		var img = document.createElement("img");
 		//y=Lautstärke Werte von 0-480 auf 0-100 umrechnen
-		soundVolume = Math.round((100 / 480) * y) // ergibt gerundeten Wert zwischen 0 und 100 
+		soundVolume = Math.round((100 / 100) * y) // ergibt gerundeten Wert zwischen 0 und 100 
 		console.log("soundVolume = " + soundVolume);
 		playSound(noteNumber, soundVolume);
 

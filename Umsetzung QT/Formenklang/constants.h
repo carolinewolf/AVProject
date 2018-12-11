@@ -18,8 +18,8 @@ const double redLigUpper = (100 * 2.55);
 
 // --- Green
 // Hue
-const double greenHueLower = 120 / 2 - 20;
-const double greenHueUpper = 120 / 2 + 20;
+const double greenHueLower = 130 / 2 - 20;
+const double greenHueUpper = 130 / 2 + 20;
 // Satturation
 const double greenSatLower = (30 * 2.55);
 const double greenSatUpper = (100 * 2.55);
@@ -31,13 +31,27 @@ const double greenLigUpper = (100 * 2.55);
 // --- Blue
 // Hue
 const double blueHueLower = 200 / 2;
-const double blueHueUpper = 300 / 2;
+const double blueHueUpper = 260 / 2;
 //Satturation
 const double blueSatLower = (30 * 2.55);
 const double blueSatUpper = (100 * 2.55);
 // Light
 const double blueLigLower = (15 * 2.55);
 const double blueLigUpper = (100 * 2.55);
+
+
+// --- Black
+// Hue
+const double blackHueLower = 25 / 2;
+const double blackHueUpper = 100 / 2;
+//Satturation
+const double blackSatLower = (0 * 2.55);
+const double blackSatUpper = (50 * 2.55);
+// Light
+const double blackLigLower = (0 * 2.55);
+const double blackLigUpper = (10 * 2.55);
+
+
 
 
 const int TRIANGLE_NUMBER = 10;
@@ -47,6 +61,7 @@ const int PENTAGON_NUMBER = 30;
 const int GREEN_FORM = 1;
 const int BLUE_FORM = 2;
 const int RED_FORM = 3;
+const int BLACK_FORM = 4;
 
 
 

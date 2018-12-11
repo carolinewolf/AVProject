@@ -26,7 +26,7 @@ public:
 private slots:
 
 private:
-    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask,lowerRedHueMask, upperRedHueMask;
+    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask, blackMask, lowerRedHueMask, upperRedHueMask;
     QThread cThread;
 };
 

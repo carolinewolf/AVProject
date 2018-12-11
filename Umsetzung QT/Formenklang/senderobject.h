@@ -23,8 +23,8 @@ private:
     FormKeyer formKeyer;
     std::vector<std::vector<int>> forms;
     cv::Mat pointedImage;
-    double frameWidthTo10Seconds, frameHeightToByte;
-    double midiX, midiY;
+    double frameWidthTo10Seconds, frameHeightToByte, frameWidthToMilli;
+    double midiX, midiY, waitTime;
     drumstick::rt::MIDIOutput midiOutput;
 };
 
