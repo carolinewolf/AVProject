@@ -11,10 +11,9 @@ class SenderObject : public QObject
     Q_OBJECT
 public:
     explicit SenderObject(QObject *parent = nullptr);
-    void DoSetup(QThread &cThread);
+    void DoSetup(QThread &cThread, int frameWidth, int frameHeight);
     void setForms(std::vector<std::vector<int>> forms);
     void setImage(cv::Mat image);
-
 
 public slots:
     void DoWork();
@@ -27,5 +26,6 @@ private:
     double midiX, midiY, waitTime;
     drumstick::rt::MIDIOutput midiOutput;
 };
+
 
 #endif // SENDEROBJECT_H

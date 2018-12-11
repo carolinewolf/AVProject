@@ -22,13 +22,11 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     formkeyer.cpp \
-    form.cpp \
     senderobject.cpp
 
 HEADERS += \
         mainwindow.h \
     formkeyer.h \
-    form.h \
     constants.h \
     senderobject.h
 

@@ -1,49 +1,49 @@
-#include "formkeyer.h"
 #include <QDebug>
-#include <vector>
-#include "form.h"
 #include <QTextStream>
-#include <QTime>
-#include <QFuture>
-#include <QTimer>
-#include <QtConcurrent/QtConcurrent>
-#include <windows.h> // for Sleep
-#include <QObject>
-#include <senderobject.h>
 #include <QCoreApplication>
-#include <constants.h>
+#include <vector>
+#include "senderobject.h"
+#include "formkeyer.h"
+#include "constants.h"
 
 using namespace cv;
 using namespace std;
 
-SenderObject cObject;
+SenderObject senderObject;
 extern int isTracking;
-bool threadStarted = false;
-bool hasTrackedImage = false;
 extern Point point;
 
 FormKeyer::FormKeyer(){}
+/*
+void FormKeyer::startProcessing(const VideoFormat &format) {
 
+}
+*/
 
 Mat FormKeyer::process(const Mat &input){
-    Mat image(input.rows, input.cols, input.type(), Scalar(100,100,100));
     if(!hasTrackedImage) {
+        Mat image(input.rows, input.cols, input.type(), Scalar(100,100,100));
         image.copyTo(trackedMat);
         hasTrackedImage = true;
     }
     input.copyTo(actualMat);
 
-
+    // draw point for played form
     if (point.x > 0) {
         circle(trackedMat, point, 5, cv::Scalar(255,255,255), CV_FILLED);
     }
     return trackedMat;
 }
 
-void FormKeyer::trackForms() {
+void FormKeyer::setTrackedMat() {
+    Mat image(trackedMat.rows, trackedMat.cols, trackedMat.type(), Scalar(100,100,100));
+    image.copyTo(trackedMat);
+}
+
+void FormKeyer::trackForms(int frameWidth, int frameHeight) {
     if (!threadStarted) {
-        cObject.DoSetup(cThread);
-        cObject.moveToThread(&cThread);
+        senderObject.DoSetup(cThread, frameWidth, frameHeight);
+        senderObject.moveToThread(&cThread);
         threadStarted = true;
     } else {
         cThread.quit();
@@ -53,8 +53,12 @@ void FormKeyer::trackForms() {
     vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask);
 
     actualMat.copyTo(trackedMat);
-    cObject.setForms(allForms);
+    senderObject.setForms(allForms);
     cThread.start();
+}
+
+void FormKeyer::stopTracking(){
+    cThread.terminate();
 }
 
 void FormKeyer::createMasks() {
@@ -70,15 +74,14 @@ void FormKeyer::createMasks() {
     // Blue Mask
     inRange(hsvImage, Scalar(blueHueLower, blueSatLower, blueLigLower), Scalar(blueHueUpper, blueSatUpper, blueLigUpper), blueMask);
 
-    // Black Mask
-    inRange(hsvImage, Scalar(blackHueLower, blackSatLower, blackLigLower), Scalar(blackHueUpper, blackSatUpper, blackLigUpper), blackMask);
-
+    // yellow Mask
+    inRange(hsvImage, Scalar(yellowHueLower, yellowSatLower, yellowLigLower), Scalar(yellowHueUpper, yellowSatUpper, yellowLigUpper), yellowMask);
 
     // Morph Masks
     blueMask = morphImage(blueMask);
     greenMask = morphImage(greenMask);
     redMask = morphImage(redMask);
-    blackMask = morphImage(blackMask);
+    yellowMask = morphImage(yellowMask);
 
 }
 
@@ -93,15 +96,15 @@ vector<vector<int>> FormKeyer::getAllForms(Mat greenMask, Mat redMask, Mat blueM
     vector<vector<int>> greenForms = detectForms(greenMask, GREEN_FORM);
     vector<vector<int>> redForms = detectForms(redMask, RED_FORM);
     vector<vector<int>> blueForms = detectForms(blueMask, BLUE_FORM);
-    vector<vector<int>> blackForms = detectForms(blackMask, BLACK_FORM);
+    vector<vector<int>> yellowForms = detectForms(yellowMask, YELLOW_FORM);
     vector<vector<int>> allForms;
 
     // Combine Forms
-    allForms.reserve( greenForms.size() + redForms.size() + blueForms.size() + blackForms.size() );
+    allForms.reserve( greenForms.size() + redForms.size() + blueForms.size() + yellowForms.size() );
     allForms.insert( allForms.end(), greenForms.begin(), greenForms.end() );
     allForms.insert( allForms.end(), redForms.begin(), redForms.end() );
     allForms.insert( allForms.end(), blueForms.begin(), blueForms.end() );
-    allForms.insert( allForms.end(), blackForms.begin(), blackForms.end() );
+    allForms.insert( allForms.end(), yellowForms.begin(), yellowForms.end() );
     return allForms;
 }
 

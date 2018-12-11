@@ -7,6 +7,8 @@
 #include "videoengine.h"
 #include "formkeyer.h"
 #include <QTime>
+#include <QMediaPlayer>
+
 
 namespace Ui {
 class MainWindow;
@@ -19,12 +21,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
+    void connectSounds();
+    void prepareUI();
+    void prepareVideoEngine();
 
 private slots:
     void countDown();
-    void timerActivated();
+    void intervalTimerActivated();
     void on_playStopBtn_clicked();
     void on_quadrat_rot_clicked();
     void on_quadrat_gruen_clicked();
@@ -41,7 +44,7 @@ private:
     VideoEngine videoEngine;
     FormKeyer formKeyer;
     int counter;
-
+    bool isCountDownActive, isTrackingActive;
     QThread cThread;
 };
 

@@ -6,13 +6,12 @@
 using namespace std;
 using namespace cv;
 
-extern int frameHeight;
-extern int frameWidth;
+
 Point point;
 
 SenderObject::SenderObject(QObject *parent) : QObject(parent){}
 
-void SenderObject::DoSetup(QThread &cThread) {
+void SenderObject::DoSetup(QThread &cThread, int frameWidth, int frameHeight) {
     // Calculation for Framewidth and Frameheight
     frameWidthToMilli = 5000 / double(frameWidth);
     frameWidthTo10Seconds = 5 / double(frameWidth);

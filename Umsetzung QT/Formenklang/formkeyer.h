@@ -5,9 +5,7 @@
 #include "videoprocessor.h"
 #include <vector>
 #include "midioutput.h"
-#include "form.h"
 #include <QThread>
-#include "form.h"
 
 
 class FormKeyer : public VideoProcessor
@@ -20,13 +18,17 @@ public:
     std::vector<std::vector<int>> detectForms(const cv::Mat&mask, const int color);
     cv::Mat morphImage(const cv::Mat mask);
     std::vector<std::vector<int>> getAllForms(cv::Mat greenMask, cv::Mat redMask, cv::Mat blueMask);
-    void trackForms();
+    void trackForms(int frameWidth, int frameHeight);
+    void stopTracking();
     std::vector<cv::Point> points;
+    void setTrackedMat();
+    bool hasTrackedImage = false;
+    bool threadStarted = false;
 
 private slots:
 
 private:
-    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask, blackMask, lowerRedHueMask, upperRedHueMask;
+    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask, yellowMask, lowerRedHueMask, upperRedHueMask;
     QThread cThread;
 };
 

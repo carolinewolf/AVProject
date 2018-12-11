@@ -5,48 +5,58 @@
 #include "senderobject.h"
 #include <QTextStream>
 #include <QMediaPlayer>
+#include "constants.h"
 
 using namespace std;
-int frameHeight;
-int frameWidth;
-bool isCountDownActive = false;
-QTimer *timerCountdown = new QTimer();
 
 vector<QMediaPlayer> soundPlayer(9);
+QTimer *countDownTimer = new QTimer();
+QTimer *intervalTimer = new QTimer();
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    // set interval timer for tracking
+    QObject::connect(intervalTimer, SIGNAL(timeout()), this, SLOT(intervalTimerActivated()));
+
+    isCountDownActive = false;
+    isTrackingActive = false;
+    prepareUI();
+    prepareVideoEngine();
+    connectSounds();
+}
+
+void MainWindow::prepareUI() {
     ui->setupUi(this);
     ui->countDownLabel->hide();
     ui->newTrackingInLabel->hide();
+}
 
-    // Sounds Quadrate
+void MainWindow::prepareVideoEngine(){
+    videoEngine.setInputWidget(ui->inputImage);
+    videoEngine.setProcessedWidget(ui->trackedImage);
+    videoEngine.setProcessor(&formKeyer);
+    const int deviceNumber = 0;
+    videoEngine.openCamera(deviceNumber + cv::CAP_DSHOW);
+    videoEngine.start();
+}
+
+void MainWindow::connectSounds() {
+    // square
     soundPlayer[0].setMedia(QUrl("qrc:/sounds/sounds/151.wav"));
     soundPlayer[1].setMedia(QUrl("qrc:/sounds/sounds/149.wav"));
     soundPlayer[2].setMedia(QUrl("qrc:/sounds/sounds/150.wav"));
 
-    // Sounds Dreiecke
+    // triangle
     soundPlayer[3].setMedia(QUrl("qrc:/sounds/sounds/157.wav"));
     soundPlayer[4].setMedia(QUrl("qrc:/sounds/sounds/155.wav"));
     soundPlayer[5].setMedia(QUrl("qrc:/sounds/sounds/156.wav"));
 
-    // Sounds Pentagone
+    // pentagone
     soundPlayer[6].setMedia(QUrl("qrc:/sounds/sounds/145.wav"));
     soundPlayer[7].setMedia(QUrl("qrc:/sounds/sounds/143.wav"));
     soundPlayer[8].setMedia(QUrl("qrc:/sounds/sounds/144.wav"));
-
-    // VideoEngine vorbeiten und Kamera öffnen
-    videoEngine.setInputWidget(ui->inputImage);
-    videoEngine.setProcessedWidget(ui->trackedImage);
-    videoEngine.setProcessor(&formKeyer);
-    const int deviceNumber = 1;
-    videoEngine.openCamera(deviceNumber + cv::CAP_DSHOW);
-    videoEngine.start();
-
-    frameHeight = videoEngine.getHeight();
-    frameWidth = videoEngine.getWidth();
 }
 
 MainWindow::~MainWindow()
@@ -56,39 +66,53 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_playStopBtn_clicked()
 {
-    QTimer *timer = new QTimer();
+    if(!isTrackingActive){
+        // show label for counter
+        ui->countDownLabel->show();
+        ui->newTrackingInLabel->show();
 
+        // start intervalTimer
+        intervalTimer->singleShot(0, this, SLOT(intervalTimerActivated()));
+        intervalTimer->start(INTERVAL_IN_MILLISECONDS);
 
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timerActivated()));
-    ui->countDownLabel->show();
-    ui->newTrackingInLabel->show();
-
-    timer->singleShot(0, this, SLOT(timerActivated()));
-    timer->start(5000);
+        isTrackingActive = true;
+        ui->playStopBtn->setText("Tracking stoppen");
+    } else {
+        intervalTimer->stop();
+        formKeyer.setTrackedMat();
+        formKeyer.stopTracking();
+        isTrackingActive = false;
+        ui->playStopBtn->setText("Tracking starten");
+        ui->countDownLabel->hide();
+        ui->newTrackingInLabel->hide();
+    }
 }
 
-
-
-void MainWindow::timerActivated() {
+void MainWindow::intervalTimerActivated() {
     if(isCountDownActive){
-        timerCountdown->stop();
+        countDownTimer->stop();
     } else {
-        QObject::connect(timerCountdown, SIGNAL(timeout()), this, SLOT(countDown()));
+        // Connect countDownTimer with slot-Function
+        QObject::connect(countDownTimer, SIGNAL(timeout()), this, SLOT(countDown()));
         isCountDownActive = true;
     }
-    counter = 5;
+    counter = INTERVAL_IN_SECONDS;
+    // update ui-Counter
     ui->countDownLabel->setText(QString::number(counter));
+    // start timer for countdown every second
+    countDownTimer->start(1000);
 
-    timerCountdown->start(1000);
-
-    formKeyer.trackForms();
-
+    // start tracking
+    formKeyer.trackForms(videoEngine.getWidth(), videoEngine.getHeight());
 }
+
 void MainWindow::countDown() {
+    // set counter and update ui
     counter --;
     ui->countDownLabel->setText(QString::number(counter));
 }
 
+// Slots to play sound on form
 void MainWindow::on_quadrat_rot_clicked()
 {
     soundPlayer[0].play();
