@@ -37,13 +37,13 @@ const double blueHueUpper = 260 / 2;
 const double blueSatLower = (30 * 2.55);
 const double blueSatUpper = (100 * 2.55);
 // Light
-const double blueLigLower = (15 * 2.55);
+const double blueLigLower = (10 * 2.55);
 const double blueLigUpper = (100 * 2.55);
 
 
 // --- Yellow
 // Hue
-const double yellowHueLower = 40 / 2;
+const double yellowHueLower = 30 / 2;
 const double yellowHueUpper = 100 / 2;
 //Satturation
 const double yellowSatLower = (30 * 2.55);

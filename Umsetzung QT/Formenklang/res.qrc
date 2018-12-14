@@ -20,5 +20,8 @@
         <file>images/quadrat_blau.png</file>
         <file>images/quadrat_gruen.png</file>
         <file>images/quadrat_rot.png</file>
+        <file>images/dreieck_gelb.png</file>
+        <file>images/pentagon_gelb.png</file>
+        <file>images/quadrat_gelb.png</file>
     </qresource>
 </RCC>
