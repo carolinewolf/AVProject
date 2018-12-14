@@ -32,12 +32,15 @@ private slots:
     void on_quadrat_rot_clicked();
     void on_quadrat_gruen_clicked();
     void on_quadrat_blau_clicked();
+    void on_quadrat_gelb_clicked();
     void on_dreieck_rot_clicked();
     void on_dreieck_gruen_clicked();
     void on_dreieck_blau_clicked();
+    void on_dreieck_gelb_clicked();
     void on_pentagon_rot_clicked();
     void on_pentagon_gruen_clicked();
     void on_pentagon_blau_clicked();
+    void on_pentagon_gelb_clicked();
 
 private:
     Ui::MainWindow *ui;

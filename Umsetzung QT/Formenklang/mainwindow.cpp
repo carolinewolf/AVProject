@@ -9,7 +9,7 @@
 
 using namespace std;
 
-vector<QMediaPlayer> soundPlayer(9);
+vector<QMediaPlayer> soundPlayer(12);
 QTimer *countDownTimer = new QTimer();
 QTimer *intervalTimer = new QTimer();
 
@@ -47,16 +47,19 @@ void MainWindow::connectSounds() {
     soundPlayer[0].setMedia(QUrl("qrc:/sounds/sounds/151.wav"));
     soundPlayer[1].setMedia(QUrl("qrc:/sounds/sounds/149.wav"));
     soundPlayer[2].setMedia(QUrl("qrc:/sounds/sounds/150.wav"));
+    soundPlayer[9].setMedia(QUrl("qrc:/sounds/sounds/152.wav"));
 
     // triangle
     soundPlayer[3].setMedia(QUrl("qrc:/sounds/sounds/157.wav"));
     soundPlayer[4].setMedia(QUrl("qrc:/sounds/sounds/155.wav"));
     soundPlayer[5].setMedia(QUrl("qrc:/sounds/sounds/156.wav"));
+    soundPlayer[10].setMedia(QUrl("qrc:/sounds/sounds/158.wav"));
 
     // pentagone
     soundPlayer[6].setMedia(QUrl("qrc:/sounds/sounds/145.wav"));
     soundPlayer[7].setMedia(QUrl("qrc:/sounds/sounds/143.wav"));
     soundPlayer[8].setMedia(QUrl("qrc:/sounds/sounds/144.wav"));
+    soundPlayer[11].setMedia(QUrl("qrc:/sounds/sounds/146.wav"));
 }
 
 MainWindow::~MainWindow()
@@ -128,6 +131,10 @@ void MainWindow::on_quadrat_blau_clicked()
 {
     soundPlayer[2].play();
 }
+void MainWindow::on_quadrat_gelb_clicked()
+{
+    soundPlayer[9].play();
+}
 
 void MainWindow::on_dreieck_rot_clicked()
 {
@@ -143,6 +150,10 @@ void MainWindow::on_dreieck_blau_clicked()
 {
     soundPlayer[5].play();
 }
+void MainWindow::on_dreieck_gelb_clicked()
+{
+    soundPlayer[10].play();
+}
 
 void MainWindow::on_pentagon_rot_clicked()
 {
@@ -157,4 +168,8 @@ void MainWindow::on_pentagon_gruen_clicked()
 void MainWindow::on_pentagon_blau_clicked()
 {
     soundPlayer[8].play();
+}
+void MainWindow::on_pentagon_gelb_clicked()
+{
+    soundPlayer[11].play();
 }

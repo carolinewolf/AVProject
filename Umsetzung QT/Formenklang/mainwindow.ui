@@ -270,7 +270,7 @@ border: 0;
      <rect>
       <x>10</x>
       <y>670</y>
-      <width>100</width>
+      <width>141</width>
       <height>40</height>
      </rect>
     </property>
@@ -282,7 +282,7 @@ font-weight:bold;
 </string>
     </property>
     <property name="text">
-     <string>Bass</string>
+     <string>Schlagzeug</string>
     </property>
    </widget>
    <widget class="QPushButton" name="dreieck_gelb">
@@ -482,7 +482,7 @@ font-weight:bold;
 </string>
     </property>
     <property name="text">
-     <string>Bass</string>
+     <string>Piano</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pentagon_rot">

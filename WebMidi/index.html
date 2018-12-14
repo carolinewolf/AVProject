@@ -19,7 +19,7 @@
 	<div id="editingSection">
 		<!--Volume/Gain-->
 		<div id="gain">
-			<h3>Volume</h3>
+			<h3>Lautstärke</h3>
 			<div id="gainContainer">
 				<input type="range" min="0" max="100" value="100" class="slider" id="gainSlider">
 				<span id="gainOutput">100.0 dB</span>
@@ -27,7 +27,7 @@
 		</div>
 		<!--Frequency-->
 		<div id="frequency">
-			<h3>Frequency</h3>
+			<h3>Frequenz</h3>
 			<div id="frequencyContainer">
 				<input type="range" min="20" max="20000" value="10000" class="slider" id="frequencySlider">
 				<span id="frequencyOutput">10000 Hz</span>
@@ -37,7 +37,7 @@
 			<h3>Filter</h3>
 			<div class="select">
 				<select id="selectFilter">
-					<option value="none">No Filter</option>
+					<option value="none">Kein Filter</option>
 					<option value="highpass">Highpass</option>
 					<option value="lowpass">Lowpass</option>
 					<option value="bandpass">Bandpass</option>
@@ -51,10 +51,10 @@
 		</div>
 		<!--Reverb-->
 		<div id="reverbMenu">
-			<h3>Reverb</h3>
+			<h3>Nachhall</h3>
 			<div class="select">
 				<select id="selectReverb">
-					<option value="none">No Reverb</option>
+					<option value="none">Kein Nachhall</option>
 					<option id="cave" value="cave">Cave</option>
 					<option id="church" value="church">Church</option>
 					<option id="garage" value="garage">Garage</option>
@@ -62,13 +62,6 @@
 				</select>
 			</div>
 		</div>
-		<!--Download
-		<div id="downloadSection">
-			<h3>Download</h3>
-			<button id="record">record</button>
-			<button id="stop">stop</button>
-			<button id="downloadButton"><i class="fas fa-download"></i><a href=""></a></button>
-		</div>-->
 	</div>
 	<script src="midi.js"></script>
 

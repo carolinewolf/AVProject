@@ -1,12 +1,15 @@
 <RCC>
     <qresource prefix="/sounds">
-        <file>sounds/143.wav</file>
-        <file>sounds/144.wav</file>
-        <file>sounds/145.wav</file>
         <file>sounds/149.wav</file>
         <file>sounds/150.wav</file>
         <file>sounds/151.wav</file>
         <file>sounds/155.wav</file>
+        <file>sounds/158.wav</file>
+        <file>sounds/146.wav</file>
+        <file>sounds/152.wav</file>
+        <file>sounds/143.wav</file>
+        <file>sounds/144.wav</file>
+        <file>sounds/145.wav</file>
         <file>sounds/156.wav</file>
         <file>sounds/157.wav</file>
     </qresource>
