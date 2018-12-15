@@ -1,7 +1,7 @@
 var context = new AudioContext();
-var filter = context.createBiquadFilter(); //for Frequency
-var convolver = context.createConvolver(); //for Reverb
-var gainNode = context.createGain(); //for mainVolume
+var filter = context.createBiquadFilter(); // for Frequency
+var convolver = context.createConvolver(); // for Reverb
+var gainNode = context.createGain(); // for mainVolume
 var selectReverb = document.getElementById("selectReverb");
 var selectFilter = document.getElementById("selectFilter");
 var allFrequencies = [
@@ -50,19 +50,20 @@ var allFrequencies = [
 	11839.8215267723, 12543.853951415975];
 var sliders = document.getElementsByClassName("slider");
 var sourceBuffers = [];
-var soundNumbers = [155, 156, 157, 158, 149, 150, 151,152, 143, 144, 145,146];
+var soundNumbers = [155, 156, 157,158, 149, 150, 151, 152, 159, 144, 145, 146];
 var sound;
+var animationLength =1;
 
 
 //--------------------------------------------Midi and Sound-Visualisation --------------------------------------------
 
 function initialize() {
-	//load sounds in buffer
+	// load sounds in buffer
 	for (let p = 0; p < soundNumbers.length; p++) {
 		loadSounds(soundNumbers[p]);
 	}
 
-	//MIDI
+	// MIDI
 	let midi = null;  // global MIDIAccess object
 	let midiInputs = [];
 	function onMIDISuccess(midiAccess) {
@@ -104,11 +105,10 @@ function initialize() {
 	function MIDIMessageEventHandler(event) {
 		console.log("--------------------------------------");
 		console.log("Sound: " + event.data[0] + " X: " + event.data[1] + " Y: " + event.data[2]);
-		noteOn(event.data[0], event.data[1], event.data[2]); //noteNumber, x, y
+		noteOn(event.data[0], event.data[1], event.data[2]); // noteNumber, x, y
 	}
 
-	//Form-Sound-Matching --> noteOn-Function
-	var animationLength;
+	// Form-Sound-Matching --> noteOn-Function
 	function noteOn(noteNumber, x, y) {
 		var img = document.createElement("img");
 		playSound(noteNumber, y);
@@ -117,66 +117,54 @@ function initialize() {
 			case 155:
 				img.src = "img/155.png";
 				img.alt = "greenTriangle";
-				animationLength = 1; // TODO: hübsch machen !!!!!!!!!!!!!!!!!!!!!!!!!!
 				break;
 			case 156:
 				img.src = "img/156.png";
 				img.alt = "blueTriangle";
-				animationLength = 1;
 				break;
 			case 157:
 				img.src = "img/157.png";
 				img.alt = "redTriangle";
-				animationLength = 1;
 				break;
 			case 158:
 				img.src = "img/158.png";
 				img.alt = "yellowTriangle";
-				animationLength = 1;
 				break;
 			case 149:
 				img.src = "img/149.png";
 				img.alt = "greenQuad";
-				animationLength = 1;
 				break;
 			case 150:
 				img.src = "img/150.png";
 				img.alt = "blueQuad";
-				animationLength = 1;
 				break;
 			case 151:
 				img.src = "img/151.png";
 				img.alt = "redQuad";
-				animationLength = 1;
 				break;
 			case 152:
 				img.src = "img/152.png";
 				img.alt = "yellowQuad";
-				animationLength = 1;
 				break;
-			case 143:
+			case 159:
 				img.src = "img/143.png";
 				img.alt = "greenPentagon";
-				animationLength = 1;
 				break;
 			case 144:
 				img.src = "img/144.png";
 				img.alt = "bluePentagon";
-				animationLength = 1;
 				break;
 			case 145:
 				img.src = "img/145.png";
 				img.alt = "redPentagon";
-				animationLength = 1;
 				break;
 			case 146:
 				img.src = "img/146.png";
 				img.alt = "yellowPentagon";
-				animationLength = 1;
 				break;
 		}
 
-		img.style.WebkitAnimationDuration = animationLength + "s"; //Chrome, Safari, Opera
+		img.style.WebkitAnimationDuration = animationLength + "s"; // Chrome, Safari, Opera
 		img.style.animationDuration = animationLength + "s";
 		img.id = "animationIMG";
 		document.getElementById("animationSection").appendChild(img);
@@ -193,7 +181,7 @@ function loadSounds(i) {
 
 	request.onload = function () {
 		context.decodeAudioData(request.response, function (buffer) {
-			sourceBuffers[i] = buffer; //TODO: PRÜFEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			sourceBuffers[i] = buffer; 
 		});
 	};
 	request.send();
@@ -206,21 +194,22 @@ function playSound(i, soundVolume) {
 }
 
 // set sound buffer and connect to destination
+filter.type="allpass";
 function setupSound(i, soundVolume) {
 	var gainNodeSound = context.createGain(); //for individual Volume
 	gainNodeSound.gain.value = 1 - (soundVolume / 100);
-	console.log("value " + gainNodeSound.gain.value);
 
 	sound = context.createBufferSource();
 	sound.buffer = sourceBuffers[i];
 	sound.connect(gainNodeSound);
-	gainNodeSound.connect(gainNode)
-	gainNode.connect(context.destination);
+	gainNodeSound.connect(gainNode);
+	gainNode.connect(filter);
+	filter.connect(context.destination);
 }
 
 //--------------------------------------------Sound changing Parameters--------------------------------------------
 
-//Frequency, Volume(Gain)
+// Frequency, Volume(Gain)
 for (var i = 0; i < sliders.length; i++) {
 	sliders[i].addEventListener("mousemove", changeParameter);
 }
@@ -239,26 +228,21 @@ function changeParameter() {
 	}
 }
 
-//Filter
-selectFilter.addEventListener("change", function (e) { //TODO: Testen!!!!!!!!!!!!
-	if ((e.target.selectedIndex) == 0) { //filter = none
-		console.log("DISCONNECT FILTER");
-		filter.disconnect(context.destination);
-	} else {
-		//gainNode.connect(filter);
-		filter.connect(context.destination);
+// Filter
+
+selectFilter.addEventListener("change", function (e) { 
 		console.log(e.target.options[e.target.selectedIndex].value);
 		filter.type = e.target.options[e.target.selectedIndex].value;
-	}
-
+		console.log("CONNECT FILTER");
 });
 
-//Reverb
+// Reverb
 var reverbName;
 selectReverb.addEventListener("change", function (e) {
-	reverbName = (e.target.options[e.target.selectedIndex].value); //TODO: Testen!!!!!!!!!!!!
+	reverbName = (e.target.options[e.target.selectedIndex].value); 
 	if ((e.target.selectedIndex) == 0) { //reverb == none
 		convolver.disconnect();
+		console.log("DISCONNECT CONVOLVER");
 	}
 	else {
 
@@ -273,8 +257,9 @@ selectReverb.addEventListener("change", function (e) {
 				convolver.buffer = buffer;
 				convolver.normalize = true;
 
-				//filter.connect(convolver);
+				filter.connect(convolver);
 				convolver.connect(context.destination);
+				console.log("CONNECT CONVOLVER");
 			});
 		};
 		request.send();
