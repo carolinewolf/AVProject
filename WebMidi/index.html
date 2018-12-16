@@ -4,67 +4,77 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+	 crossorigin="anonymous">
 	<title>Formenklang</title>
 </head>
 
 <body onload="initialize()" id="body">
 
-<body id="body">
-	<select class="select" id="inputportselector"></select>
-	<br>
+	<body id="body">
+		<select class="select" id="inputportselector"></select>
+		<br>
 
-	<div id="animationSection">
-	</div>
-	<div id="editingSection">
-		<!--Volume/Gain-->
-		<div id="gain">
-			<h3>Lautstärke</h3>
-			<div id="gainContainer">
-				<input type="range" min="0" max="100" value="100" class="slider" id="gainSlider">
-				<span id="gainOutput">100.0 dB</span>
+		<div id="animationSection">
+		</div>
+		<div id="editingSection">
+			<!--Volume/Gain-->
+			<div id="gain">
+				<h3>Lautstärke</h3>
+				<div id="gainContainer">
+					<input type="range" min="0" max="100" value="100" class="slider" id="gainSlider">
+					<span id="gainOutput">100.0 dB</span>
+				</div>
+			</div>
+			<!--Frequency-->
+			<div id="frequency">
+				<h3>Frequenz</h3>
+				<div id="frequencyContainer">
+					<input type="range" min="20" max="20000" value="10000" class="slider" id="frequencySlider">
+					<span id="frequencyOutput">10000 Hz</span>
+				</div>
+			</div>
+			<!-- Distortion-->
+			<div id="distortion">
+				<h3>Verzerrung</h3>
+				<div id="distortionContainer">
+					<input type="range" min="0" max="100" value="0" class="slider" id="distortionSlider">
+					<span id="distortionOutput">6</span>
+				</div>
+			</div>
+			<!--Filter-->
+			<div id="filterMenu">
+				<h3>Filter</h3>
+				<div class="select">
+					<select id="selectFilter">
+						<option value="allpass">Kein Filter</option>
+						<option value="highpass">Highpass</option>
+						<option value="lowpass">Lowpass</option>
+						<option value="bandpass">Bandpass</option>
+						<option value="lowshelf">Lowshelf</option>
+						<option value="highshelf">Highshelf</option>
+						<option value="peaking">Peaking</option>
+						<option value="notch">Notch</option>
+					</select>
+				</div>
+			</div>
+			<!--Reverb-->
+			<div id="reverbMenu">
+				<h3>Nachhall</h3>
+				<div class="select">
+					<select id="selectReverb">
+						<option value="none">Kein Nachhall</option>
+						<option id="cave" value="cave">Cave</option>
+						<option id="church" value="church">Church</option>
+						<option id="garage" value="garage">Garage</option>
+						<option id="room" value="room">Room</option>
+					</select>
+				</div>
 			</div>
 		</div>
-		<!--Frequency-->
-		<div id="frequency">
-			<h3>Frequenz</h3>
-			<div id="frequencyContainer">
-				<input type="range" min="20" max="20000" value="10000" class="slider" id="frequencySlider">
-				<span id="frequencyOutput">10000 Hz</span>
-			</div>
-		</div>
-		<div id="filterMenu">
-			<h3>Filter</h3>
-			<div class="select">
-				<select id="selectFilter">
-					<option value="allpass">Kein Filter</option>
-					<option value="highpass">Highpass</option>
-					<option value="lowpass">Lowpass</option>
-					<option value="bandpass">Bandpass</option>
-					<option value="lowshelf">Lowshelf</option>
-					<option value="highshelf">Highshelf</option>
-					<option value="peaking">Peaking</option>
-					<option value="notch">Notch</option>
-				</select>
-			</div>
-		</div>
-		<!--Reverb-->
-		<div id="reverbMenu">
-			<h3>Nachhall</h3>
-			<div class="select">
-				<select id="selectReverb">
-					<option value="none">Kein Nachhall</option>
-					<option id="cave" value="cave">Cave</option>
-					<option id="church" value="church">Church</option>
-					<option id="garage" value="garage">Garage</option>
-					<option id="room" value="room">Room</option>
-				</select>
-			</div>
-		</div>
-	</div>
-	<script src="midi.js"></script>
-	<script src="soundEditing.js"></script>
+		<script src="midi.js"></script>
+		<script src="soundEditing.js"></script>
 
-</body>
+	</body>
 
 </html>

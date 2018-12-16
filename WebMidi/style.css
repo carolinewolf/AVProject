@@ -22,6 +22,7 @@ body {
 
 #gain,
 #frequency,
+#distortion,
 #filterMenu,
 #reverbMenu,
 #downloadSection {
@@ -53,7 +54,7 @@ body {
 	position: relative;
 }
 
-#gainContainer ,#frequencyContainer {
+#gainContainer ,#frequencyContainer, #distortionContainer {
 	width: 13em;
 }
 
