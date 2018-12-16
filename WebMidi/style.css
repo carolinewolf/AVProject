@@ -53,6 +53,10 @@ body {
 	position: relative;
 }
 
+#gainContainer ,#frequencyContainer {
+	width: 13em;
+}
+
 
 /* Reset Select */
 
