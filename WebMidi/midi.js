@@ -111,7 +111,7 @@ function initialize() {
 				img.alt = "yellowPentagon";
 				break;
 		}
-
+		img.setAttribute("style", "left:" + (x * 10 + 25) + "%; top:" + (y) + "%; width:" + ((100 -y) * 3) + "px; height: " + ((100 -y) *3) + "px;");
 		img.style.WebkitAnimationDuration = animationLength + "s"; // Chrome, Safari, Opera
 		img.style.animationDuration = animationLength + "s";
 		img.id = "animationIMG";

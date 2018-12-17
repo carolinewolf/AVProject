@@ -5,52 +5,52 @@
 // ---------- Color Definition
 // --- Red
 // Hue
-const double redHueLower1 = 0;
-const double redHuerUpper1 = 20 / 2;
-const double redHueLower2 = 340 / 2;
-const double redHuerUpper2 = 360 / 2;
+const double RED_HUE_LOWER_1 = 0;
+const double RED_HUE_UPPER_1 = 20 / 2;
+const double RED_HUE_LOWER_2 = 340 / 2;
+const double RED_HUE_UPPER_2 = 360 / 2;
 // Satturation
-const double redSatLower = (55 * 2.55);
-const double redSatUpper = (100 * 2.55);
+const double RED_SAT_LOWER = (55 * 2.55);
+const double RED_SAT_UPPER = (100 * 2.55);
 // Light
-const double redLigLower = (15 * 2.55);
-const double redLigUpper = (100 * 2.55);
+const double RED_LIGHT_LOWER = (15 * 2.55);
+const double RED_LIGHT_UPPER = (100 * 2.55);
 
 
 // --- Green
 // Hue
-const double greenHueLower = 100 / 2;
-const double greenHueUpper = 150 / 2;
+const double GREEN_HUE_LOWER = 100 / 2;
+const double GREEN_HUE_UPPER = 150 / 2;
 // Satturation
-const double greenSatLower = (30 * 2.55);
-const double greenSatUpper = (100 * 2.55);
+const double GREEN_SAT_LOWER = (30 * 2.55);
+const double GREEN_SAT_UPPER = (100 * 2.55);
 // Light
-const double greenLigLower = (15 * 2.55);
-const double greenLigUpper = (100 * 2.55);
+const double GREEN_LIGHT_LOWER = (15 * 2.55);
+const double GREEN_LIGHT_UPPER = (100 * 2.55);
 
 
 // --- Blue
 // Hue
-const double blueHueLower = 200 / 2;
-const double blueHueUpper = 260 / 2;
+const double BLUE_HUE_LOWER = 200 / 2;
+const double BLUE_HUE_UPPER = 260 / 2;
 //Satturation
-const double blueSatLower = (30 * 2.55);
-const double blueSatUpper = (100 * 2.55);
+const double BLUE_SAT_LOWER = (30 * 2.55);
+const double BLUE_SAT_UPPER = (100 * 2.55);
 // Light
-const double blueLigLower = (10 * 2.55);
-const double blueLigUpper = (100 * 2.55);
+const double BLUE_LIGHT_LOWER = (10 * 2.55);
+const double BLUE_LIGHT_UPPER = (100 * 2.55);
 
 
 // --- Yellow
 // Hue
-const double yellowHueLower = 30 / 2;
-const double yellowHueUpper = 100 / 2;
+const double YELLOW_HUE_LOWER = 30 / 2;
+const double YELLOW_HUE_UPPER = 100 / 2;
 //Satturation
-const double yellowSatLower = (30 * 2.55);
-const double yellowSatUpper = (100 * 2.55);
+const double YELLOW_SAT_LOWER = (30 * 2.55);
+const double YELLOW_SAT_UPPER = (100 * 2.55);
 // Light
-const double yellowLigLower = (50 * 2.55);
-const double yellowLigUpper = (100 * 2.55);
+const double YELLOW_LIGHT_LOWER = (50 * 2.55);
+const double YELLOW_LIGHT_UPPER = (100 * 2.55);
 
 
 // ---------- From and color definition

@@ -12,6 +12,7 @@ using namespace std;
 vector<QMediaPlayer> soundPlayer(12);
 QTimer *countDownTimer = new QTimer();
 QTimer *intervalTimer = new QTimer();
+bool MainWindow::isTrackingActive = false;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(intervalTimer, SIGNAL(timeout()), this, SLOT(intervalTimerActivated()));
 
     isCountDownActive = false;
-    isTrackingActive = false;
     prepareUI();
     prepareVideoEngine();
     connectSounds();
@@ -69,7 +69,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_playStopBtn_clicked()
 {
-    if(!isTrackingActive){
+    if(!MainWindow::isTrackingActive){
+        MainWindow::isTrackingActive = true;
         // show label for counter
         ui->countDownLabel->show();
         ui->newTrackingInLabel->show();
@@ -78,13 +79,12 @@ void MainWindow::on_playStopBtn_clicked()
         intervalTimer->singleShot(0, this, SLOT(intervalTimerActivated()));
         intervalTimer->start(INTERVAL_IN_MILLISECONDS);
 
-        isTrackingActive = true;
         ui->playStopBtn->setText("Tracking stoppen");
     } else {
         intervalTimer->stop();
-        formKeyer.setTrackedMat();
+        formKeyer.setTrackedMatToGray();
         formKeyer.stopTracking();
-        isTrackingActive = false;
+        MainWindow::isTrackingActive = false;
         ui->playStopBtn->setText("Tracking starten");
         ui->countDownLabel->hide();
         ui->newTrackingInLabel->hide();

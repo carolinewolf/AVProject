@@ -14,6 +14,7 @@ public:
     void DoSetup(QThread &cThread, int frameWidth, int frameHeight);
     void setForms(std::vector<std::vector<int>> forms);
     void setImage(cv::Mat image);
+    std::vector<cv::Point> getPoints();
 
 public slots:
     void DoWork();
@@ -23,9 +24,10 @@ private:
     std::vector<std::vector<int>> forms;
     std::vector<std::vector<int>> filteredForms;
     cv::Mat pointedImage;
-    double frameWidthToSeconds, frameHeightToByte, frameWidthToMilli;
-    double midiX, midiY, waitTime;
+    double frameWidthToSeconds, frameHeightToHundred, frameWidthToMilli;
+    double midiX, midiY, totalWaitTime;
     drumstick::rt::MIDIOutput midiOutput;
+    std::vector<cv::Point> points;
 };
 
 

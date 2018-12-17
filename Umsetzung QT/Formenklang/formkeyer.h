@@ -20,16 +20,17 @@ public:
     std::vector<std::vector<int>> getAllForms(cv::Mat greenMask, cv::Mat redMask, cv::Mat blueMask);
     void trackForms(int frameWidth, int frameHeight);
     void stopTracking();
-    std::vector<cv::Point> points;
-    void setTrackedMat();
+    void setTrackedMatToGray();
     bool hasTrackedImage = false;
     bool threadStarted = false;
 
 private slots:
 
 private:
-    cv::Mat actualMat, trackedMat, hsvImage, redMask, greenMask, blueMask, yellowMask, lowerRedHueMask, upperRedHueMask;
-    QThread cThread;
+    cv::Mat currentMat, trackedMat, hsvImage, redMask, greenMask, blueMask, yellowMask, lowerRedHueMask, upperRedHueMask,testImage;
+    QThread sendingThread;
+    std::vector<cv::Point> drawingPoints;
+
 };
 
 #endif // COLORKEYERHSV_H

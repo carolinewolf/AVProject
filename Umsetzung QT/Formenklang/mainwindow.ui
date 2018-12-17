@@ -288,7 +288,7 @@ font-weight:bold;
    <widget class="QPushButton" name="dreieck_gelb">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>100</x>
       <y>710</y>
       <width>60</width>
       <height>60</height>
@@ -308,7 +308,7 @@ background-repeat: none;
    <widget class="QPushButton" name="dreieck_rot">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>240</x>
       <y>710</y>
       <width>60</width>
       <height>60</height>

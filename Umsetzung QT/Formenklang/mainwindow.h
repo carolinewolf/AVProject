@@ -24,6 +24,7 @@ public:
     void connectSounds();
     void prepareUI();
     void prepareVideoEngine();
+    static bool isTrackingActive;
 
 private slots:
     void countDown();
@@ -47,7 +48,7 @@ private:
     VideoEngine videoEngine;
     FormKeyer formKeyer;
     int counter;
-    bool isCountDownActive, isTrackingActive;
+    bool isCountDownActive;
     QThread cThread;
 };
 
