@@ -38,11 +38,6 @@ Mat FormKeyer::process(const Mat &input){
     return trackedMat;
 }
 
-void FormKeyer::setTrackedMatToGray() {
-    Mat image(trackedMat.rows, trackedMat.cols, trackedMat.type(), Scalar(100,100,100));
-    image.copyTo(trackedMat);
-}
-
 void FormKeyer::trackForms(int frameWidth, int frameHeight) {
 
     // do setup for thread, else quit thread
@@ -58,13 +53,18 @@ void FormKeyer::trackForms(int frameWidth, int frameHeight) {
     // convert current Mat from frame, create masks for each color and collect all forms
     cvtColor(currentMat, hsvImage, CV_BGR2HSV);
     createMasks();
-    vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask);
+    vector<vector<int>> allForms = getAllForms(greenMask,redMask,blueMask, yellowMask);
 
     currentMat.copyTo(trackedMat);
 
     // set forms for sending thread and start its
     senderObject.setForms(allForms);
     sendingThread.start();
+}
+
+void FormKeyer::setTrackedMatToGray() {
+    Mat image(trackedMat.rows, trackedMat.cols, trackedMat.type(), Scalar(100,100,100));
+    image.copyTo(trackedMat);
 }
 
 void FormKeyer::stopTracking(){
@@ -101,7 +101,7 @@ Mat FormKeyer::morphImage(Mat mask) {
     return mask;
 }
 
-vector<vector<int>> FormKeyer::getAllForms(Mat greenMask, Mat redMask, Mat blueMask) {
+vector<vector<int>> FormKeyer::getAllForms(Mat greenMask, Mat redMask, Mat blueMask, Mat yellowMask) {
     vector<vector<int>> greenForms = detectForms(greenMask, GREEN_FORM);
     vector<vector<int>> redForms = detectForms(redMask, RED_FORM);
     vector<vector<int>> blueForms = detectForms(blueMask, BLUE_FORM);
@@ -128,7 +128,6 @@ vector<vector<int>> FormKeyer::detectForms(const Mat &mask, const int color) {
     copy_if(contours.begin(), contours.end(), back_inserter(filteredContours), [](vector<Point> i){return i.size()>20;});
 
     vector<vector<int>> forms(filteredContours.size());
-
 
     // only for console log necessary
     String colorText;

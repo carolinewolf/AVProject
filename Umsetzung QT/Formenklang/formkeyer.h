@@ -17,7 +17,7 @@ public:
     void createMasks();
     std::vector<std::vector<int>> detectForms(const cv::Mat&mask, const int color);
     cv::Mat morphImage(const cv::Mat mask);
-    std::vector<std::vector<int>> getAllForms(cv::Mat greenMask, cv::Mat redMask, cv::Mat blueMask);
+    std::vector<std::vector<int>> getAllForms(cv::Mat greenMask, cv::Mat redMask, cv::Mat blueMask, cv::Mat yellowMask);
     void trackForms(int frameWidth, int frameHeight);
     void stopTracking();
     void setTrackedMatToGray();
@@ -27,7 +27,7 @@ public:
 private slots:
 
 private:
-    cv::Mat currentMat, trackedMat, hsvImage, redMask, greenMask, blueMask, yellowMask, lowerRedHueMask, upperRedHueMask,testImage;
+    cv::Mat currentMat, trackedMat, hsvImage, redMask, greenMask, blueMask, yellowMask, lowerRedHueMask, upperRedHueMask;
     QThread sendingThread;
     std::vector<cv::Point> drawingPoints;
 

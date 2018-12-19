@@ -49,7 +49,6 @@ private:
     FormKeyer formKeyer;
     int counter;
     bool isCountDownActive;
-    QThread cThread;
 };
 
 #endif
